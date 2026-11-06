@@ -430,7 +430,75 @@
       }
     }
 
-    // 5. خطوات الرحلة
+    // 5. محطات المغامرة الخمس المنظمة والواضحة للأطفال
+    const stationDefs = {
+      bullying: {
+        cardId: 'stationCardBullying',
+        btnId: 'stationBtnBullying',
+        statusId: 'stationStatusBullying',
+        defaultBtnText: 'ابدئي المحطة 1 ⭐',
+        doneBtnText: 'تم إنجاز المحطة 1 بنجاح ✓ 🌟'
+      },
+      situations: {
+        cardId: 'stationCardSituations',
+        btnId: 'stationBtnSituations',
+        statusId: 'stationStatusSituations',
+        defaultBtnText: 'ابدئي المحطة 2 ⭐',
+        doneBtnText: 'تم إنجاز المحطة 2 بنجاح ✓ 🌟'
+      },
+      kindness: {
+        cardId: 'stationCardKindness',
+        btnId: 'stationBtnKindness',
+        statusId: 'stationStatusKindness',
+        defaultBtnText: 'ابدئي المحطة 3 ⭐',
+        doneBtnText: 'تم إنجاز المحطة 3 بنجاح ✓ 🌟'
+      },
+      pledge: {
+        cardId: 'stationCardPledge',
+        btnId: 'stationBtnPledge',
+        statusId: 'stationStatusPledge',
+        defaultBtnText: 'وقّعي الميثاق 4 🔏',
+        doneBtnText: 'تم توقيع الميثاق بنجاح ✓ 🌟'
+      },
+      wall: {
+        cardId: 'stationCardWall',
+        btnId: 'stationBtnWall',
+        statusId: 'stationStatusWall',
+        defaultBtnText: 'شاركي بكلمتكِ 5 🌸',
+        doneBtnText: 'تمت المشاركة بنجاح ✓ 🌟'
+      }
+    };
+
+    for (const [key, conf] of Object.entries(stationDefs)) {
+      const isDone = Boolean(state.steps[key]);
+      const card = document.getElementById(conf.cardId);
+      if (card) {
+        card.classList.toggle('completed', isDone);
+      }
+      const btn = document.getElementById(conf.btnId);
+      if (btn) {
+        const textSpan = btn.querySelector('.btn-text');
+        if (textSpan) {
+          textSpan.textContent = isDone ? conf.doneBtnText : conf.defaultBtnText;
+        }
+      }
+      const statusBadge = document.getElementById(conf.statusId);
+      if (statusBadge) {
+        statusBadge.innerHTML = isDone ? '🌟 مكتملة بنجاح ✓' : '⭐ لم تبدأ بعد';
+      }
+    }
+
+    // بطاقة الجائزة الكبرى
+    const rewardCard = document.getElementById('grandRewardCard');
+    const rewardDesc = document.getElementById('rewardDescText');
+    if (rewardCard) {
+      rewardCard.classList.toggle('unlocked', state.stars === 5);
+    }
+    if (rewardDesc && state.stars === 5) {
+      rewardDesc.innerHTML = '🎉 <b>مبارك يا سفيرة الأمان بمدرسة متوسطة 92!</b> اكتملت النجوم الخمس بنجاح، وشهادتكِ الملكية المعتمدة أصبحت جاهزة للاستلام والطباعة الآن!';
+    }
+
+    // خطوات الرحلة للتوافقية
     const stepChips = {
       bullying: 'chipBullying',
       situations: 'chipSituations',
@@ -1384,7 +1452,43 @@
   // 8. ربط أحداث الصفحة وعناصر التفاعل
   // =========================================================================
   function bindPageEvents() {
-    // كروت التعلّم
+    // محطات المغامرة الخمس للأطفال (Adventure Stations)
+    const btnBullying = document.getElementById('stationBtnBullying');
+    if (btnBullying) btnBullying.onclick = (e) => { e.stopPropagation(); openBullyingQuiz(); };
+    const cardBullying = document.getElementById('stationCardBullying');
+    if (cardBullying) cardBullying.onclick = openBullyingQuiz;
+
+    const btnSituations = document.getElementById('stationBtnSituations');
+    if (btnSituations) btnSituations.onclick = (e) => { e.stopPropagation(); openSituationsSimulator(); };
+    const cardSituations = document.getElementById('stationCardSituations');
+    if (cardSituations) cardSituations.onclick = openSituationsSimulator;
+
+    const btnKindness = document.getElementById('stationBtnKindness');
+    if (btnKindness) btnKindness.onclick = (e) => { e.stopPropagation(); openKindnessChallenge(); };
+    const cardKindness = document.getElementById('stationCardKindness');
+    if (cardKindness) cardKindness.onclick = openKindnessChallenge;
+
+    const btnPledge = document.getElementById('stationBtnPledge');
+    if (btnPledge) btnPledge.onclick = (e) => { e.stopPropagation(); openPledgeModal(); };
+    const cardPledge = document.getElementById('stationCardPledge');
+    if (cardPledge) cardPledge.onclick = openPledgeModal;
+
+    const goToWall = () => {
+      const wall = document.getElementById('stickyWallSection');
+      if (wall) {
+        wall.scrollIntoView({ behavior: 'smooth' });
+        setTimeout(() => {
+          const input = document.getElementById('stickyTextInput');
+          if (input) input.focus();
+        }, 600);
+      }
+    };
+    const btnWall = document.getElementById('stationBtnWall');
+    if (btnWall) btnWall.onclick = (e) => { e.stopPropagation(); goToWall(); };
+    const cardWall = document.getElementById('stationCardWall');
+    if (cardWall) cardWall.onclick = goToWall;
+
+    // كروت التعلّم والكبسولات للتوافقية
     const topicCards = document.querySelectorAll('.topic-card');
     topicCards.forEach(card => {
       card.addEventListener('click', () => {
@@ -1395,7 +1499,6 @@
       });
     });
 
-    // كبسولات خطوات الرحلة
     const chipBullying = document.getElementById('chipBullying');
     if (chipBullying) chipBullying.onclick = openBullyingQuiz;
     const chipSituations = document.getElementById('chipSituations');
@@ -1405,12 +1508,7 @@
     const chipPledge = document.getElementById('chipPledge');
     if (chipPledge) chipPledge.onclick = openPledgeModal;
     const chipWall = document.getElementById('chipWall');
-    if (chipWall) {
-      chipWall.onclick = () => {
-        const wall = document.getElementById('stickyWallSection');
-        if (wall) wall.scrollIntoView({ behavior: 'smooth' });
-      };
-    }
+    if (chipWall) chipWall.onclick = goToWall;
 
     // زر الميثاق
     const pledgeBtn = document.getElementById('pledgeActionBtn');
@@ -1681,6 +1779,7 @@
     const avatarBtn = document.getElementById('mascotAvatarBtn');
     const bubble = document.getElementById('mascotSpeechBubble');
     const bubbleText = document.getElementById('mascotSpeechText');
+    const closeBtn = document.getElementById('mascotCloseBubbleBtn');
 
     const tips = [
       'أنتِ بطلة متميزة في مدرسة متوسطة 92! ✨',
@@ -1694,12 +1793,29 @@
     ];
 
     let tipIdx = 0;
+    let autoHideTimer = null;
+
+    function scheduleAutoHide() {
+      if (autoHideTimer) clearTimeout(autoHideTimer);
+      autoHideTimer = setTimeout(() => {
+        if (bubble) bubble.classList.remove('active');
+      }, 7500);
+    }
+
+    function showBubbleWithTip(text) {
+      if (bubbleText) bubbleText.textContent = text;
+      if (bubble) {
+        bubble.classList.add('active');
+        bubble.style.animation = 'none';
+        void bubble.offsetWidth;
+        bubble.style.animation = 'bubblePop 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+      }
+      scheduleAutoHide();
+    }
 
     function nextTip() {
       tipIdx = (tipIdx + 1) % tips.length;
-      if (bubbleText) {
-        bubbleText.textContent = tips[tipIdx];
-      }
+      showBubbleWithTip(tips[tipIdx]);
       playBeep(659.25, 'triangle', 0.2, 0, 0.12);
       playBeep(880.00, 'triangle', 0.35, 0.1, 0.14);
       launchConfetti(window.innerWidth * 0.15, window.innerHeight * 0.85);
@@ -1707,34 +1823,42 @@
 
     if (avatarBtn) {
       avatarBtn.onclick = () => {
-        nextTip();
-        if (avatarBtn) {
-          avatarBtn.style.transform = 'scale(1.25) rotate(15deg)';
-          setTimeout(() => { avatarBtn.style.transform = ''; }, 300);
+        if (bubble && bubble.classList.contains('active')) {
+          nextTip();
+        } else {
+          showBubbleWithTip(tips[tipIdx]);
+          playBeep(659.25, 'triangle', 0.2, 0, 0.12);
         }
+        avatarBtn.style.transform = 'scale(1.22) rotate(12deg)';
+        setTimeout(() => { avatarBtn.style.transform = ''; }, 300);
       };
     }
+
+    if (closeBtn) {
+      closeBtn.onclick = (e) => {
+        e.stopPropagation();
+        if (bubble) bubble.classList.remove('active');
+        if (autoHideTimer) clearTimeout(autoHideTimer);
+      };
+    }
+
     if (bubble) {
       bubble.onclick = nextTip;
     }
 
     mascotShout = (msg) => {
-      if (bubbleText) {
-        bubbleText.textContent = msg;
-      }
-      if (bubble) {
-        bubble.style.animation = 'none';
-        void bubble.offsetWidth;
-        bubble.style.animation = 'bubblePop 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
-      }
+      showBubbleWithTip(msg);
+      playBeep(523.25, 'triangle', 0.25, 0, 0.12);
+      playBeep(659.25, 'triangle', 0.25, 0.1, 0.12);
+      playBeep(783.99, 'triangle', 0.4, 0.2, 0.14);
     };
 
     setInterval(() => {
       tipIdx = (tipIdx + 1) % tips.length;
-      if (bubbleText) {
+      if (bubbleText && !bubble.classList.contains('active')) {
         bubbleText.textContent = tips[tipIdx];
       }
-    }, 16000);
+    }, 18000);
   }
 
   // =========================================================================

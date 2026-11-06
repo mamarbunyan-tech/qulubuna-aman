@@ -52,6 +52,8 @@ html {
   scroll-behavior: smooth;
   font-size: 16px;
   -webkit-text-size-adjust: 100%;
+  scroll-padding-top: 85px;
+  scroll-padding-bottom: 95px;
 }
 
 /* منع التكبير التلقائي المزعج في متصفح Safari على أجهزة iPhone عند التركيز على الحقول */
@@ -449,7 +451,9 @@ main {
 
 .hero-art-orb {
   width: 360px;
+  max-width: 88vw;
   height: 360px;
+  max-height: 88vw;
   border-radius: 54% 46% 51% 49% / 48% 52% 48% 52%;
   background: linear-gradient(140deg, #edf4e7 0%, #faede8 100%);
   position: relative;
@@ -670,82 +674,323 @@ main {
   margin-bottom: 25px;
 }
 
-/* كبسولات الأهداف الخمسة */
-.journey-steps-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-  gap: 12px;
-  margin: 25px 0 35px;
-  text-align: right;
+/* ==========================================================================
+   خريطة مغامرة الأمان المدرسية للأطفال (Adventure Roadmap)
+   ========================================================================== */
+
+.adventure-hero-sub {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  margin-top: 6px;
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.7;
 }
 
-.step-chip {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
+.adventure-progress-card {
+  background: #ffffff;
+  border: 1.5px solid var(--border);
   border-radius: var(--radius-md);
-  padding: 14px 16px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  transition: all 0.25s ease;
-  cursor: pointer;
-}
-
-.step-chip:hover {
-  border-color: var(--primary-light);
-  transform: translateY(-2px);
+  padding: 16px 20px 20px;
+  margin: 20px auto 30px;
+  max-width: 760px;
   box-shadow: var(--shadow-sm);
 }
 
-.step-chip.done {
-  background: var(--primary-soft);
-  border-color: var(--primary-border);
+.adventure-stations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 760px;
+  margin: 0 auto 35px;
+  text-align: right;
 }
 
-.step-chip-num {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: #e4ece0;
-  color: var(--text-muted);
+/* بطاقة المحطة */
+.station-card {
+  background: #ffffff;
+  border: 2px solid var(--border);
+  border-radius: 22px;
+  padding: 22px 24px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 0.85rem;
-  font-weight: 800;
+  gap: 22px;
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: 0 4px 14px rgba(32, 56, 46, 0.05);
+  position: relative;
+  overflow: hidden;
+  text-align: right;
+}
+
+.station-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 6px;
+  height: 100%;
+  background: var(--primary-light);
+  opacity: 0.7;
+  transition: width 0.3s ease;
+}
+
+.station-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--primary-light);
+  box-shadow: 0 10px 28px rgba(32, 56, 46, 0.1);
+}
+
+.station-card:hover::before {
+  width: 10px;
+}
+
+/* عمود الأرقام والأيقونات */
+.station-badge-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
   flex-shrink: 0;
 }
 
-.step-chip.done .step-chip-num {
-  background: var(--primary);
-  color: #fff;
-}
-
-.step-chip-info h4 {
-  font-size: 0.88rem;
-  color: var(--primary-dark);
-  font-weight: 700;
-  margin-bottom: 2px;
-}
-
-.step-chip-info span {
-  font-size: 0.75rem;
-  color: var(--text-muted);
-}
-
-/* أزرار الإجراءات في لوحة الرحلة */
-.journey-actions {
+.station-number-pill {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--primary-soft);
+  color: var(--primary);
+  font-weight: 800;
+  font-size: 0.95rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
+  border: 1.5px solid var(--primary-border);
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.station-icon-avatar {
+  width: 54px;
+  height: 54px;
+  border-radius: 18px;
+  background: #f7faf5;
+  border: 1px solid #e2ebe0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.85rem;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.3s ease;
+}
+
+.station-card:hover .station-icon-avatar {
+  transform: scale(1.1) rotate(5deg);
+}
+
+/* عمود المحتوى */
+.station-content-col {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.station-top-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   flex-wrap: wrap;
+  gap: 8px;
+}
+
+.station-tag-pill {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.station-status-badge {
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  background: #f1f5ee;
+  color: #55695b;
+  border: 1px solid #dbe5d8;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.3s ease;
+}
+
+.station-title {
+  font-size: 1.28rem;
+  font-weight: 800;
+  color: var(--primary-dark);
+  margin: 2px 0;
+  line-height: 1.35;
+}
+
+.station-desc {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+.station-btn-row {
+  margin-top: 4px;
+}
+
+.station-action-btn {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: #ffffff;
+  border: none;
+  border-radius: 14px;
+  padding: 12px 26px;
+  font-family: inherit;
+  font-size: 0.98rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 14px rgba(45, 94, 70, 0.2);
+  min-height: 48px;
+}
+
+.station-action-btn:hover {
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(45, 94, 70, 0.3);
+}
+
+.station-action-btn:active {
+  transform: scale(0.97) !important;
+}
+
+/* حالة اكتمال المحطة (Completed Station) */
+.station-card.completed {
+  background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+  border-color: #86efac;
+  box-shadow: 0 6px 20px rgba(34, 197, 94, 0.12);
+}
+
+.station-card.completed::before {
+  background: #22c55e;
+  width: 8px;
+}
+
+.station-card.completed .station-number-pill {
+  background: #22c55e;
+  color: #ffffff;
+  border-color: #16a34a;
+}
+
+.station-card.completed .station-status-badge {
+  background: #dcfce7;
+  color: #15803d;
+  border-color: #bbf7d0;
+}
+
+.station-card.completed .station-action-btn {
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+  box-shadow: 0 4px 14px rgba(34, 197, 94, 0.25);
+}
+
+/* الجائزة الكبرى: بطاقة الشهادة الملكية (Grand Reward Card) */
+.grand-reward-card {
+  background: radial-gradient(circle at 80% 20%, #fffdf5 0%, #fef8e7 100%);
+  border: 2px dashed #e4c478;
+  border-radius: 26px;
+  padding: 30px 28px;
+  max-width: 760px;
+  margin: 30px auto 10px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  text-align: right;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(212, 159, 63, 0.15);
+  transition: all 0.4s ease;
+}
+
+.grand-reward-card.unlocked {
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+  border: 2px solid #f59e0b;
+  box-shadow: 0 12px 35px rgba(245, 158, 11, 0.28);
+  animation: rewardPulse 2.5s infinite ease-in-out;
+}
+
+@keyframes rewardPulse {
+  0%, 100% { box-shadow: 0 8px 25px rgba(245, 158, 11, 0.2); }
+  50% { box-shadow: 0 14px 40px rgba(245, 158, 11, 0.4); }
+}
+
+.reward-crown-glow {
+  width: 72px;
+  height: 72px;
+  border-radius: 22px;
+  background: #fff8db;
+  border: 2px solid #f5c871;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.4rem;
+  flex-shrink: 0;
+  box-shadow: 0 6px 20px rgba(212, 159, 63, 0.3);
+  animation: crownBob 2s infinite ease-in-out;
+}
+
+@keyframes crownBob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px) scale(1.05); }
+}
+
+.reward-copy {
+  flex-grow: 1;
+}
+
+.reward-eyebrow {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--gold-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.reward-copy h3 {
+  font-family: "Amiri", serif;
+  font-size: 1.85rem;
+  color: #3b2804;
+  margin: 4px 0 6px;
+  line-height: 1.3;
+}
+
+.reward-copy p {
+  font-size: 0.92rem;
+  color: #66522c;
+  line-height: 1.6;
+}
+
+.reward-actions-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.reward-celebrate-btn {
+  padding: 10px 18px !important;
+  font-size: 0.92rem !important;
 }
 
 .certificate-trigger-btn {
-  min-width: 300px;
-  padding: 15px 32px;
-  font-size: 1.1rem;
+  min-width: 280px;
+  padding: 15px 28px;
+  font-size: 1.05rem;
 }
 
 .certificate-trigger-btn:disabled {
@@ -755,107 +1000,12 @@ main {
   box-shadow: none !important;
 }
 
-/* مساحة التعلّم والتجربة (Learning Cards) */
-.learning-section {
-  max-width: 1180px;
-  margin: 0 auto 90px;
-  padding: 0 24px;
+/* كبسولات الأهداف الخمسة للتوافقية المسبقة */
+.step-chip {
+  display: none;
 }
-
-.cards-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 25px;
-  margin-top: 30px;
-}
-
 .topic-card {
-  background: var(--bg-card);
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 32px 28px;
-  transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-}
-
-.topic-card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 5px;
-  background: linear-gradient(90deg, var(--primary), var(--rose));
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.topic-card:hover {
-  transform: translateY(-6px);
-  border-color: var(--primary-light);
-  box-shadow: var(--shadow-lg);
-}
-
-.topic-card:hover::before {
-  opacity: 1;
-}
-
-.card-badge-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
-}
-
-.card-emoji-box {
-  width: 54px;
-  height: 54px;
-  border-radius: var(--radius-md);
-  background: var(--bg-card-alt);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.8rem;
-}
-
-.card-star-pill {
-  font-size: 0.8rem;
-  font-weight: 700;
-  padding: 4px 12px;
-  border-radius: var(--radius-full);
-  background: var(--gold-soft);
-  color: var(--gold-dark);
-  border: 1px solid var(--gold-border);
-}
-
-.topic-card h3 {
-  font-size: 1.45rem;
-  color: var(--primary-dark);
-  margin-bottom: 10px;
-  font-weight: 700;
-}
-
-.topic-card p {
-  color: var(--text-muted);
-  font-size: 0.98rem;
-  line-height: 1.7;
-  margin-bottom: 22px;
-  flex-grow: 1;
-}
-
-.card-footer-action {
-  color: var(--rose-dark);
-  font-weight: 700;
-  font-size: 0.98rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  transition: transform 0.2s;
+  display: none;
 }
 
 .topic-card:hover .card-footer-action {
@@ -1574,11 +1724,15 @@ footer {
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(255, 255, 255, 0.92);
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-top: 1px solid rgba(45, 94, 70, 0.12);
-  padding: 8px 12px max(8px, env(safe-area-inset-bottom));
+  padding: 6px 4px max(8px, env(safe-area-inset-bottom));
   z-index: 990;
   box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.06);
   justify-content: space-around;
@@ -1625,283 +1779,6 @@ footer {
   padding: 1px 5px;
   border-radius: var(--radius-full);
   font-weight: 800;
-}
-
-/* ==========================================================================
-   التجاوب مع شاشات الجوال والأجهزة اللوحية والآيفون (iOS Safari Optimization)
-   ========================================================================== */
-@media (max-width: 900px) {
-  .hero {
-    grid-template-columns: 1fr;
-    text-align: center;
-    padding-top: 35px;
-    gap: 25px;
-  }
-  .hero-cta-group {
-    justify-content: center;
-  }
-  .hero-stats-row {
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-  .hero-art-container {
-    height: 300px;
-  }
-  .hero-art-orb {
-    width: 280px;
-    height: 280px;
-  }
-  .cards-grid {
-    grid-template-columns: 1fr;
-  }
-  .help-section {
-    grid-template-columns: 1fr;
-  }
-  .help-art-card {
-    height: 240px;
-  }
-  .topbar-nav {
-    display: none;
-  }
-}
-
-@media (max-width: 640px) {
-  body {
-    padding-bottom: max(80px, calc(70px + env(safe-area-inset-bottom)));
-  }
-  
-  .mobile-bottom-bar {
-    display: flex;
-  }
-
-  .topbar {
-    padding: 10px 14px;
-    padding-top: max(10px, env(safe-area-inset-top));
-  }
-  .brand-badge {
-    width: 38px;
-    height: 38px;
-    font-size: 1.15rem;
-  }
-  .brand-text h1 {
-    font-size: 1.18rem;
-  }
-  .brand-text span {
-    font-size: 0.7rem;
-  }
-  .sound-btn-text {
-    display: none;
-  }
-  .sound-toggle-btn {
-    padding: 8px 10px;
-  }
-  .mini-stars-pill {
-    padding: 5px 10px;
-    font-size: 0.8rem;
-  }
-
-  .hero h1 {
-    font-size: 2.15rem;
-    line-height: 1.35;
-  }
-  .hero p.intro {
-    font-size: 0.98rem;
-  }
-  .hero-cta-group {
-    flex-direction: column;
-    width: 100%;
-  }
-  .hero-cta-group a, .hero-cta-group button {
-    width: 100%;
-    justify-content: center;
-    padding: 14px 20px;
-  }
-
-  /* رحلة الأمان والكبسولات على الآيفون */
-  .journey-section {
-    padding: 24px 14px;
-  }
-  .stars-display {
-    gap: 8px;
-  }
-  .star-slot {
-    width: 44px;
-    height: 44px;
-    font-size: 1.6rem;
-  }
-  .journey-steps-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-  }
-  .journey-steps-grid .step-chip:nth-child(5) {
-    grid-column: span 2;
-  }
-  .step-chip {
-    padding: 10px 8px;
-  }
-  .step-chip-num {
-    width: 26px;
-    height: 26px;
-    font-size: 0.8rem;
-  }
-  .step-chip-info h4 {
-    font-size: 0.8rem;
-  }
-  .step-chip-info span {
-    font-size: 0.68rem;
-  }
-  .certificate-trigger-btn {
-    min-width: 100%;
-    width: 100%;
-  }
-
-  /* تجربة المودال التفاعلي كـ Bottom Sheet في الآيفون */
-  .modal-overlay {
-    align-items: flex-end;
-    padding: 0;
-  }
-  .modal-window {
-    border-radius: 28px 28px 0 0;
-    max-height: 90dvh;
-    max-width: 100%;
-    padding: 16px 16px max(24px, env(safe-area-inset-bottom));
-    transform: translateY(100%);
-    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-    -webkit-overflow-scrolling: touch;
-  }
-  .modal-overlay.active .modal-window {
-    transform: translateY(0);
-  }
-  .modal-window::before {
-    content: "";
-    display: block;
-    width: 44px;
-    height: 5px;
-    background: rgba(0, 0, 0, 0.18);
-    border-radius: 10px;
-    margin: 0 auto 14px;
-  }
-  .modal-close-btn {
-    top: 14px;
-    left: 14px;
-    width: 36px;
-    height: 36px;
-    font-size: 1.1rem;
-    z-index: 10;
-  }
-
-  /* الشهادة الرسمية متجاوبة 100% بدون أي قص */
-  .certificate-frame {
-    border-width: 6px double #caa45d;
-    padding: 18px 10px;
-    margin-top: 5px;
-  }
-  .cert-corner-flower {
-    font-size: 1.1rem;
-    width: 22px;
-    height: 22px;
-  }
-  .cert-header-meta {
-    font-size: 0.72rem;
-  }
-  .cert-subtitle {
-    font-size: 0.8rem;
-  }
-  .cert-main-title {
-    font-size: 1.75rem;
-  }
-  .cert-given-to {
-    font-size: 0.78rem;
-  }
-  .cert-student-name {
-    font-size: 1.55rem;
-  }
-  .cert-body-p {
-    font-size: 0.78rem;
-    line-height: 1.6;
-  }
-  .cert-seal-badge {
-    width: 75px;
-    height: 75px;
-    padding: 6px 4px;
-    font-size: 0.62rem;
-  }
-  .cert-seal-badge .seal-icon {
-    font-size: 1.2rem;
-  }
-  .cert-signatures {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    font-size: 0.76rem;
-  }
-  .cert-signatures div:nth-child(2) {
-    grid-column: span 2;
-  }
-  .cert-serial-footer {
-    font-size: 0.66rem;
-  }
-  #downloadCertImageBtn, #printCertPdfBtn {
-    width: 100% !important;
-    min-height: 50px;
-  }
-
-  /* جدارية الكلمات في الجوال */
-  .wall-container {
-    padding: 24px 16px;
-  }
-  .wall-input-fields {
-    flex-direction: column;
-  }
-  .wall-input-fields .wall-author-input {
-    width: 100%;
-  }
-  .wall-input-controls {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .color-picker-group {
-    justify-content: center;
-  }
-  #addStickyNoteBtn {
-    width: 100%;
-    padding: 14px;
-  }
-  .sticky-notes-grid {
-    grid-template-columns: 1fr;
-  }
-
-  /* أجهزة الجوال والآيفون: عجلة اللطف ومختبر المشاعر وتميمة أمانة */
-  .wheel-game-container {
-    grid-template-columns: 1fr;
-    gap: 25px;
-  }
-  .wheel-stage {
-    width: 290px;
-    height: 290px;
-  }
-  #wheelCanvas {
-    width: 280px !important;
-    height: 280px !important;
-  }
-  .mood-cards-row {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-  }
-  .mascot-widget {
-    bottom: 74px;
-    left: 10px;
-  }
-  .mascot-speech-bubble {
-    max-width: 175px;
-    font-size: 0.78rem;
-    padding: 8px 12px;
-  }
-  .mascot-avatar {
-    width: 54px;
-    height: 54px;
-  }
 }
 
 /* ==========================================================================
@@ -2350,7 +2227,7 @@ footer {
   background: #ffffff;
   border: 2px solid var(--gold);
   border-radius: 18px;
-  padding: 10px 16px;
+  padding: 10px 16px 10px 28px;
   font-size: 0.88rem;
   font-weight: 700;
   color: #2b1f06;
@@ -2361,6 +2238,30 @@ footer {
   margin-bottom: 10px;
   animation: bubblePop 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
+}
+
+.mascot-bubble-close {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.05);
+  border: none;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #64748b;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.mascot-bubble-close:hover {
+  background: rgba(0, 0, 0, 0.14);
+  color: #0f172a;
 }
 
 @keyframes bubblePop {
@@ -2470,6 +2371,405 @@ footer {
   border-color: var(--primary);
   transform: scale(1.15);
   background: var(--primary-soft);
+}
+
+/* ==========================================================================
+   التجاوب مع شاشات الجوال والأجهزة اللوحية والآيفون (iOS Safari Optimization)
+   ========================================================================== */
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding-top: 35px;
+    gap: 25px;
+  }
+  .hero-cta-group {
+    justify-content: center;
+  }
+  .hero-stats-row {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .hero-art-container {
+    height: 300px;
+  }
+  .hero-art-orb {
+    width: 280px;
+    height: 280px;
+  }
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+  .help-section {
+    grid-template-columns: 1fr;
+  }
+  .help-art-card {
+    height: 240px;
+  }
+  .topbar-nav {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  body {
+    padding-bottom: max(80px, calc(70px + env(safe-area-inset-bottom)));
+  }
+  
+  .mobile-bottom-bar {
+    display: flex;
+  }
+
+  .topbar {
+    padding: 10px 14px;
+    padding-top: max(10px, env(safe-area-inset-top));
+  }
+  .brand-badge {
+    width: 38px;
+    height: 38px;
+    font-size: 1.15rem;
+  }
+  .brand-text h1 {
+    font-size: 1.18rem;
+  }
+  .brand-text span {
+    font-size: 0.7rem;
+  }
+  .sound-btn-text {
+    display: none;
+  }
+  .sound-toggle-btn {
+    padding: 8px 10px;
+  }
+  .mini-stars-pill {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+  }
+
+  .hero h1 {
+    font-size: 2.15rem;
+    line-height: 1.35;
+  }
+  .hero p.intro {
+    font-size: 0.98rem;
+  }
+  .hero-cta-group {
+    flex-direction: column;
+    width: 100%;
+  }
+  .hero-cta-group a, .hero-cta-group button {
+    width: 100%;
+    justify-content: center;
+    padding: 14px 20px;
+  }
+
+  /* خريطة مغامرة الأمان والمحطات على هواتف الآيفون والسامسونج */
+  .journey-section {
+    padding: 24px 12px;
+    margin: 0 auto 50px;
+  }
+  .stars-display {
+    gap: 8px;
+  }
+  .star-slot {
+    width: 44px;
+    height: 44px;
+    font-size: 1.6rem;
+  }
+  .adventure-progress-card {
+    padding: 14px 12px 16px;
+    margin: 15px auto 25px;
+  }
+  .adventure-stations-list {
+    gap: 12px;
+    width: 100%;
+  }
+  .station-card {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 16px 14px;
+    gap: 12px;
+    border-radius: 18px;
+  }
+  .station-badge-col {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+  }
+  .station-number-pill {
+    width: 30px;
+    height: 30px;
+    font-size: 0.9rem;
+  }
+  .station-icon-avatar {
+    width: 46px;
+    height: 46px;
+    font-size: 1.55rem;
+    border-radius: 14px;
+  }
+  .station-title {
+    font-size: 1.15rem;
+  }
+  .station-desc {
+    font-size: 0.88rem;
+    line-height: 1.55;
+    margin-bottom: 6px;
+  }
+  .station-action-btn {
+    width: 100%;
+    justify-content: center;
+    min-height: 52px;
+    font-size: 1rem;
+    border-radius: 16px;
+  }
+
+  /* بطاقة الجائزة الكبرى والشهادة على الجوال */
+  .grand-reward-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 24px 14px;
+    gap: 16px;
+    border-radius: 20px;
+  }
+  .reward-crown-glow {
+    margin: 0 auto;
+    width: 64px;
+    height: 64px;
+    font-size: 2.1rem;
+  }
+  .reward-copy h3 {
+    font-size: 1.55rem;
+  }
+  .reward-actions-group {
+    width: 100%;
+  }
+  .reward-actions-group button {
+    width: 100% !important;
+    min-height: 52px !important;
+  }
+  .certificate-trigger-btn {
+    min-width: 100%;
+    width: 100%;
+    font-size: 1rem;
+  }
+
+  /* تجربة المودال التفاعلي كـ Bottom Sheet في الآيفون */
+  .modal-overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+  .modal-window {
+    border-radius: 28px 28px 0 0;
+    max-height: 90dvh;
+    max-width: 100%;
+    padding: 16px 16px max(24px, env(safe-area-inset-bottom));
+    transform: translateY(100%);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    -webkit-overflow-scrolling: touch;
+  }
+  .modal-overlay.active .modal-window {
+    transform: translateY(0);
+  }
+  .modal-window::before {
+    content: "";
+    display: block;
+    width: 44px;
+    height: 5px;
+    background: rgba(0, 0, 0, 0.18);
+    border-radius: 10px;
+    margin: 0 auto 14px;
+  }
+  .modal-close-btn {
+    top: 14px;
+    left: 14px;
+    width: 36px;
+    height: 36px;
+    font-size: 1.1rem;
+    z-index: 10;
+  }
+
+  /* الشهادة الرسمية متجاوبة 100% بدون أي قص */
+  .certificate-frame {
+    border-width: 6px double #caa45d;
+    padding: 18px 10px;
+    margin-top: 5px;
+  }
+  .cert-corner-flower {
+    font-size: 1.1rem;
+    width: 22px;
+    height: 22px;
+  }
+  .cert-header-meta {
+    font-size: 0.72rem;
+  }
+  .cert-subtitle {
+    font-size: 0.8rem;
+  }
+  .cert-main-title {
+    font-size: 1.75rem;
+  }
+  .cert-given-to {
+    font-size: 0.78rem;
+  }
+  .cert-student-name {
+    font-size: 1.55rem;
+  }
+  .cert-body-p {
+    font-size: 0.78rem;
+    line-height: 1.6;
+  }
+  .cert-seal-badge {
+    width: 75px;
+    height: 75px;
+    padding: 6px 4px;
+    font-size: 0.62rem;
+  }
+  .cert-seal-badge .seal-icon {
+    font-size: 1.2rem;
+  }
+  .cert-signatures {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    font-size: 0.76rem;
+  }
+  .cert-signatures div:nth-child(2) {
+    grid-column: span 2;
+  }
+  .cert-serial-footer {
+    font-size: 0.66rem;
+  }
+  #downloadCertImageBtn, #printCertPdfBtn {
+    width: 100% !important;
+    min-height: 50px;
+  }
+
+  /* جدارية الكلمات في الجوال */
+  .wall-container {
+    padding: 24px 16px;
+  }
+  .wall-input-fields {
+    flex-direction: column;
+  }
+  .wall-input-fields .wall-author-input {
+    width: 100%;
+  }
+  .wall-input-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .color-picker-group {
+    justify-content: center;
+  }
+  #addStickyNoteBtn {
+    width: 100%;
+    padding: 14px;
+  }
+  .sticky-notes-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* أجهزة الجوال والآيفون والسامسونج: عجلة اللطف ومختبر المشاعر وتميمة أمانة */
+  .wheel-game-container {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .wheel-stage {
+    width: 270px;
+    height: 270px;
+    margin: 0 auto;
+  }
+  #wheelCanvas {
+    width: 260px !important;
+    height: 260px !important;
+  }
+  .wheel-result-card {
+    padding: 20px 16px;
+  }
+  .wheel-result-card h3 {
+    font-size: 1.3rem;
+  }
+  .wheel-result-card p {
+    font-size: 0.92rem;
+  }
+
+  /* بوصلة المشاعر على الهواتف بتنظيم محكم 2×2 ومحاذاة مريحة */
+  .mood-cards-row {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  .mood-card:nth-child(5) {
+    grid-column: span 2;
+  }
+  .mood-card {
+    padding: 12px 6px;
+    min-height: 80px;
+    font-size: 0.82rem;
+  }
+  .mood-card .mood-emoji {
+    font-size: 1.6rem;
+    margin-bottom: 3px;
+  }
+
+  /* رفيقة الأمان التفاعلية «أمانة» على الجوال: تصميم عائم ذكي غير معيق */
+  .mascot-widget {
+    bottom: calc(75px + env(safe-area-inset-bottom));
+    left: 12px;
+    z-index: 990;
+    pointer-events: none;
+  }
+  .mascot-avatar {
+    width: 50px;
+    height: 50px;
+    pointer-events: auto;
+  }
+  .mascot-speech-bubble {
+    position: fixed;
+    top: calc(70px + env(safe-area-inset-top));
+    bottom: auto;
+    left: 14px;
+    right: 14px;
+    max-width: calc(100vw - 28px);
+    width: auto;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(12px) scale(0.94);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.22);
+    border: 2px solid var(--gold);
+    padding: 14px 18px 14px 34px;
+    font-size: 0.9rem;
+    border-radius: 20px;
+    background: #ffffff;
+  }
+  .mascot-speech-bubble.active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+  }
+  .mascot-bubble-close {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #f1f5f9;
+    border: none;
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #475569;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+  .mascot-bubble-close:active {
+    background: #e2e8f0;
+  }
 }
 
 /* ==========================================================================

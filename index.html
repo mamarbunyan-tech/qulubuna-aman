@@ -42,12 +42,10 @@
     </a>
 
     <nav class="topbar-nav">
-      <a class="nav-link" href="#journey">رحلة الأمان</a>
-      <a class="nav-link" href="#learning">مساحة التعلّم</a>
+      <a class="nav-link" href="#journey">خريطة الأمان</a>
       <a class="nav-link" href="#wheelSection">عجلة اللطف</a>
-      <a class="nav-link" href="#stickyWallSection">جدارية اللطف</a>
       <a class="nav-link" href="#feelingsSection">بوصلة المشاعر</a>
-      <a class="nav-link" href="#pledge">ميثاق الأمان</a>
+      <a class="nav-link" href="#stickyWallSection">جدارية اللطف</a>
       <a class="nav-link" href="#help">طلب المساعدة</a>
     </nav>
 
@@ -145,33 +143,16 @@
       </div>
     </section>
 
-    <!-- لوحة رحلة النجوم الخمس (Journey to the Star of Safety) -->
+    <!-- خريطة مغامرة الأمان للأطفال (Child-Friendly Adventure Roadmap) -->
     <section class="journey-section panel" id="journey">
-      <div class="section-head">
+      <div class="section-head text-center">
         <div>
-          <span class="eyebrow-tag">خطوة صغيرة… وأثر جميل</span>
-          <h2>رحلتي إلى نجمة الأمان والشهادة الرسمية</h2>
+          <span class="eyebrow-tag">🗺️ خريطة مغامرة الأمان المدرسية</span>
+          <h2>رحلتي الممتعة نحو نجمة الأمان 🌟</h2>
+          <p class="adventure-hero-sub">أهلاً بكِ يا بطلة متوسطة 92! أكملي المحطات الخمس بالترتيب لتزهر شجرتكِ وتفتحي وسامكِ وشهادتكِ الرسمية المعتمدة.</p>
         </div>
         <span class="sparkle-icon">✧</span>
       </div>
-
-      <!-- خانات النجوم التفاعلية -->
-      <div class="stars-display" id="starsDisplay">
-        <div class="star-slot" id="starSlot1">☆<span class="tooltip">1. مقياس التنمر</span></div>
-        <div class="star-slot" id="starSlot2">☆<span class="tooltip">2. محاكاة المواقف</span></div>
-        <div class="star-slot" id="starSlot3">☆<span class="tooltip">3. تحدي اللطف</span></div>
-        <div class="star-slot" id="starSlot4">☆<span class="tooltip">4. ميثاق الشرف</span></div>
-        <div class="star-slot" id="starSlot5">☆<span class="tooltip">5. جدارية اللطف</span></div>
-      </div>
-
-      <!-- شريط التقدم -->
-      <div class="progress-bar-wrap">
-        <div class="progress-bar-fill" id="progressBarFill"></div>
-      </div>
-
-      <p class="progress-status-text" id="progressStatusText">
-        أحرزتِ <b>0 من 5 نجوم</b>. أكملي الأنشطة لتفتحي وسام وشهادة الأمان المعتمدة.
-      </p>
 
       <!-- شجرة الأمان التفاعلية الحية (Living Tree of Kindness) -->
       <div class="safety-tree-card" id="safetyTreeCard" title="شجرة أمان متوسطة 92 تزهر وتتلألأ مع كل إنجاز!">
@@ -215,119 +196,171 @@
         </div>
       </div>
 
-      <!-- كبسولات الأهداف الخمسة (يمكن النقر عليها لبدء النشاط مباشرة) -->
-      <div class="journey-steps-grid">
-        <div class="step-chip" id="chipBullying">
-          <div class="step-chip-num">1</div>
-          <div class="step-chip-info">
-            <h4>مقياس التنمر</h4>
-            <span>اكتشفي الفرق</span>
-          </div>
+      <!-- لوحة النجوم والتقدم الواضح للأطفال -->
+      <div class="adventure-progress-card">
+        <div class="stars-display" id="starsDisplay">
+          <div class="star-slot" id="starSlot1">☆<span class="tooltip">1. مقياس التنمر</span></div>
+          <div class="star-slot" id="starSlot2">☆<span class="tooltip">2. محاكاة المواقف</span></div>
+          <div class="star-slot" id="starSlot3">☆<span class="tooltip">3. تحدي اللطف</span></div>
+          <div class="star-slot" id="starSlot4">☆<span class="tooltip">4. ميثاق الشرف</span></div>
+          <div class="star-slot" id="starSlot5">☆<span class="tooltip">5. جدارية اللطف</span></div>
         </div>
-        <div class="step-chip" id="chipSituations">
-          <div class="step-chip-num">2</div>
-          <div class="step-chip-info">
-            <h4>محاكي المواقف</h4>
-            <span>اتخاذ القرار</span>
-          </div>
+
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-fill" id="progressBarFill"></div>
         </div>
-        <div class="step-chip" id="chipKindness">
-          <div class="step-chip-num">3</div>
-          <div class="step-chip-info">
-            <h4>تحدي اللطف</h4>
-            <span>خطوة يومية</span>
+
+        <p class="progress-status-text" id="progressStatusText">
+          أحرزتِ <b>0 من 5 نجوم</b>. أكملي الأنشطة لتفتحي وسام وشهادة الأمان المعتمدة.
+        </p>
+      </div>
+
+      <!-- محطات المغامرة الخمس المنظمة والواضحة للأطفال -->
+      <div class="adventure-stations-list" id="adventureStationsList">
+
+        <!-- المحطة 1: مقياس التنمر -->
+        <article class="station-card" id="stationCardBullying" data-station="bullying">
+          <div class="station-badge-col">
+            <span class="station-number-pill">1</span>
+            <span class="station-icon-avatar">🌱</span>
           </div>
+          <div class="station-content-col">
+            <div class="station-top-meta">
+              <span class="station-tag-pill">المحطة الأولى · وعي وفطنة</span>
+              <span class="station-status-badge" id="stationStatusBullying">⭐ لم تبدأ بعد</span>
+            </div>
+            <h3 class="station-title">مقياس التنمّر والوعي الذكي</h3>
+            <p class="station-desc">مقياس ممتع ومبسط لاكتشاف الفرق الدقيق بين المزاح اللطيف والخلاف العابر والتنمر، وكيف تتصرفين بذكاء.</p>
+            <div class="station-btn-row">
+              <button class="station-action-btn" id="stationBtnBullying">
+                <span class="btn-text">ابدئي المحطة 1 ⭐</span>
+                <span class="btn-arrow">←</span>
+              </button>
+            </div>
+          </div>
+          <!-- عنصر توافقي خفي -->
+          <span id="chipBullying" style="display:none;"></span>
+        </article>
+
+        <!-- المحطة 2: محاكي المواقف -->
+        <article class="station-card" id="stationCardSituations" data-station="situations">
+          <div class="station-badge-col">
+            <span class="station-number-pill">2</span>
+            <span class="station-icon-avatar">💬</span>
+          </div>
+          <div class="station-content-col">
+            <div class="station-top-meta">
+              <span class="station-tag-pill">المحطة الثانية · شجاعة ومساندة</span>
+              <span class="station-status-badge" id="stationStatusSituations">⭐ لم تبدأ بعد</span>
+            </div>
+            <h3 class="station-title">محاكي المواقف المدرسية والواقعية</h3>
+            <p class="station-desc">مواقف واقعية تمر بها الطالبات في المدرسة والإنترنت، اختاري تصرفكِ الشجاع لمساندة صديقتكِ وإيقاف الأذى.</p>
+            <div class="station-btn-row">
+              <button class="station-action-btn" id="stationBtnSituations">
+                <span class="btn-text">ابدئي المحطة 2 ⭐</span>
+                <span class="btn-arrow">←</span>
+              </button>
+            </div>
+          </div>
+          <!-- عنصر توافقي خفي -->
+          <span id="chipSituations" style="display:none;"></span>
+        </article>
+
+        <!-- المحطة 3: تحدي اللطف -->
+        <article class="station-card" id="stationCardKindness" data-station="kindness">
+          <div class="station-badge-col">
+            <span class="station-number-pill">3</span>
+            <span class="station-icon-avatar">☀️</span>
+          </div>
+          <div class="station-content-col">
+            <div class="station-top-meta">
+              <span class="station-tag-pill">المحطة الثالثة · بذور اللطف</span>
+              <span class="station-status-badge" id="stationStatusKindness">⭐ لم تبدأ بعد</span>
+            </div>
+            <h3 class="station-title">شجرة وتحدي اللطف اليومي</h3>
+            <p class="station-desc">اختاري عملاً لطيفاً واحداً تنجزينه اليوم لتصنعي ابتسامة وفرحة وتتركي أثراً دافئاً في نفوس زميلاتكِ.</p>
+            <div class="station-btn-row">
+              <button class="station-action-btn" id="stationBtnKindness">
+                <span class="btn-text">ابدئي المحطة 3 ⭐</span>
+                <span class="btn-arrow">←</span>
+              </button>
+            </div>
+          </div>
+          <!-- عنصر توافقي خفي -->
+          <span id="chipKindness" style="display:none;"></span>
+        </article>
+
+        <!-- المحطة 4: ميثاق الشرف -->
+        <article class="station-card" id="stationCardPledge" data-station="pledge">
+          <div class="station-badge-col">
+            <span class="station-number-pill">4</span>
+            <span class="station-icon-avatar">🔏</span>
+          </div>
+          <div class="station-content-col">
+            <div class="station-top-meta">
+              <span class="station-tag-pill">المحطة الرابعة · عهد الشرف</span>
+              <span class="station-status-badge" id="stationStatusPledge">⭐ لم تبدأ بعد</span>
+            </div>
+            <h3 class="station-title">ميثاق قلوبنا أمان والعهد المدرسي</h3>
+            <p class="station-desc">تعهدي بنشر اللطف وحماية زميلاتكِ، واحصلي على ختم الميثاق الرسمي باسمكِ في سجل سفيرات الأمان بالمدرسة.</p>
+            <div class="station-btn-row">
+              <button class="station-action-btn" id="stationBtnPledge">
+                <span class="btn-text">وقّعي الميثاق 4 🔏</span>
+                <span class="btn-arrow">←</span>
+              </button>
+            </div>
+          </div>
+          <!-- عنصر توافقي خفي -->
+          <span id="chipPledge" style="display:none;"></span>
+        </article>
+
+        <!-- المحطة 5: جدارية الكلمات المشتركة -->
+        <article class="station-card" id="stationCardWall" data-station="wall">
+          <div class="station-badge-col">
+            <span class="station-number-pill">5</span>
+            <span class="station-icon-avatar">🌸</span>
+          </div>
+          <div class="station-content-col">
+            <div class="station-top-meta">
+              <span class="station-tag-pill">المحطة الخامسة · أثر المحبة</span>
+              <span class="station-status-badge" id="stationStatusWall">⭐ لم تبدأ بعد</span>
+            </div>
+            <h3 class="station-title">جدارية الكلمات المشتركة الحية</h3>
+            <p class="station-desc">انشري رسالة إيجابية أو كلمة تشجيعية لتظهر لجميع الطالبات في متوسطة 92 وتكسبي نجمتكِ الخامسة.</p>
+            <div class="station-btn-row">
+              <button class="station-action-btn" id="stationBtnWall">
+                <span class="btn-text">شاركي بكلمتكِ 5 🌸</span>
+                <span class="btn-arrow">←</span>
+              </button>
+            </div>
+          </div>
+          <!-- عنصر توافقي خفي -->
+          <span id="chipWall" style="display:none;"></span>
+        </article>
+
+      </div>
+
+      <!-- الجائزة الكبرى: وسام وشهادة الأمان الملكية الرسمية -->
+      <div class="grand-reward-card" id="grandRewardCard">
+        <div class="reward-crown-glow">👑</div>
+        <div class="reward-copy">
+          <span class="reward-eyebrow">الجائزة الكبرى والوسام الملكي 🎓</span>
+          <h3>شهادة الأمان والتميز الرسمية المعتمدة</h3>
+          <p id="rewardDescText">أكملي المحطات الخمس لتفتحي شهادتكِ الملكية المعتمدة والموقعة من الموجهة الطلابية أ. إيمان العمري ومديرة المدرسة أ. سارة الكلثم.</p>
         </div>
-        <div class="step-chip" id="chipPledge">
-          <div class="step-chip-num">4</div>
-          <div class="step-chip-info">
-            <h4>ميثاق الأمان</h4>
-            <span>العهد والختم</span>
-          </div>
-        </div>
-        <div class="step-chip" id="chipWall">
-          <div class="step-chip-num">5</div>
-          <div class="step-chip-info">
-            <h4>جدارية الكلمات</h4>
-            <span>رسالة إيجابية</span>
-          </div>
+        <div class="reward-actions-group">
+          <button class="btn-outline certificate-trigger-btn" id="certificateTriggerBtn" disabled>
+            <span>🔒 اجمعي ٥ نجوم لفتح الشهادة (0/٥)</span>
+          </button>
+          <button class="btn-outline reward-celebrate-btn" id="celebrateDemoBtn" title="احتفال تشجيعي">
+            <span>🎉 بهجة الأمان</span>
+          </button>
         </div>
       </div>
 
-      <!-- أزرار الإجراءات والشهادة -->
-      <div class="journey-actions">
-        <button class="btn-outline" id="celebrateDemoBtn">
-          <span>🎉 جرّبي احتفال الأمان</span>
-        </button>
-        <button class="btn-outline certificate-trigger-btn" id="certificateTriggerBtn" disabled>
-          <span>اجمعي ٥ نجوم لفتح الشهادة (0/٥)</span>
-        </button>
-      </div>
-
-      <small style="display:block; margin-top:20px; color:var(--text-light); font-size:0.85rem;">
+      <small style="display:block; margin-top:20px; color:var(--text-light); font-size:0.85rem; text-align:center;">
         ✨ تقدمكِ محفوظ في جهازكِ؛ أكملي النجوم واستلمي شهادتكِ المعتمدة باسمكِ واسم مدرسة متوسطة 92.
       </small>
-    </section>
-
-    <!-- مساحة التعلّم والتجربة والوعي (Learning Cards) -->
-    <section class="learning-section" id="learning">
-      <div class="section-head">
-        <div>
-          <span class="eyebrow-tag">مسارات الوعي التربوي</span>
-          <h2>مساحتكِ للتعلّم والتجربة والوعي</h2>
-          <p style="color:var(--text-muted); margin-top:6px;">اختاري بطاقة وافتحي باباً جديداً للأمان والمساندة المدرسية.</p>
-        </div>
-      </div>
-
-      <div class="cards-grid">
-        <!-- البطاقة 1: هل هذا تنمّر؟ -->
-        <article class="topic-card" data-topic="bullying">
-          <div>
-            <div class="card-badge-row">
-              <div class="card-emoji-box">🌱</div>
-              <span class="card-star-pill">نجمة 1 ⭐</span>
-            </div>
-            <h3>هل هذا تنمّر؟</h3>
-            <p>مقياس ذكي واختبار تفاعلي لفهم الفرق الدقيق بين التنمّر، والخلاف الطبيعي، والمزاح العابر.</p>
-          </div>
-          <div class="card-footer-action">
-            <span>ابدئي المقياس والتحليل</span>
-            <span>←</span>
-          </div>
-        </article>
-
-        <!-- البطاقة 2: ماذا لو كنتِ مكاني؟ -->
-        <article class="topic-card" data-topic="situations">
-          <div>
-            <div class="card-badge-row">
-              <div class="card-emoji-box">💬</div>
-              <span class="card-star-pill">نجمة 2 ⭐</span>
-            </div>
-            <h3>ماذا لو كنتِ مكاني؟</h3>
-            <p>محاكاة لمواقف واقعية في المدرسة والعالم الرقمي، تجعلكِ تكتشفين أثر الشجاعة في إيقاف الأذى.</p>
-          </div>
-          <div class="card-footer-action">
-            <span>جرّبي محاكي المواقف</span>
-            <span>←</span>
-          </div>
-        </article>
-
-        <!-- البطاقة 3: تحدّي اللطف -->
-        <article class="topic-card" data-topic="kindness">
-          <div>
-            <div class="card-badge-row">
-              <div class="card-emoji-box">☀️</div>
-              <span class="card-star-pill">نجمة 3 ⭐</span>
-            </div>
-            <h3>شجرة اللطف اليومية</h3>
-            <p>تحديات لطيفة وملموسة تختارينها اليوم لتصنعي ابتماسة وتتركي أثراً دافئاً في نفوس زميلاتكِ.</p>
-          </div>
-          <div class="card-footer-action">
-            <span>اختاري تحدّيكِ اليومي</span>
-            <span>←</span>
-          </div>
-        </article>
-      </div>
     </section>
 
     <!-- عجلة صنائع المعروف واللطف (Kindness Fortune Wheel) -->
@@ -585,8 +618,8 @@
       <span class="mob-nav-label">الرئيسية</span>
     </a>
     <a href="#journey" class="mob-nav-item" data-section="journey">
-      <span class="mob-nav-icon">⭐</span>
-      <span class="mob-nav-label">رحلتي</span>
+      <span class="mob-nav-icon">🗺️</span>
+      <span class="mob-nav-label">الخريطة</span>
       <span class="mob-nav-badge" id="mobStarsBadge">0/5</span>
     </a>
     <a href="#wheelSection" class="mob-nav-item" data-section="wheelSection">
@@ -601,11 +634,7 @@
       <span class="mob-nav-icon">🌸</span>
       <span class="mob-nav-label">المشاعر</span>
     </a>
-    <a href="#pledge" class="mob-nav-item" data-section="pledge">
-      <span class="mob-nav-icon">🔏</span>
-      <span class="mob-nav-label">الميثاق</span>
-    </a>
-    <button type="button" class="mob-nav-item" id="mobNavCertBtn">
+    <button type="button" class="mob-nav-item" id="mobNavCertBtn" title="الشهادة المعتمدة">
       <span class="mob-nav-icon">👑</span>
       <span class="mob-nav-label">الشهادة</span>
     </button>
@@ -614,6 +643,7 @@
   <!-- رفيقة الأمان التفاعلية الذكية «نجمة الأمان - أمانة» (Interactive Mascot Widget) -->
   <aside class="mascot-widget" id="mascotWidget" aria-label="رفيقة الأمان التفاعلية">
     <div class="mascot-speech-bubble" id="mascotSpeechBubble">
+      <button class="mascot-bubble-close" id="mascotCloseBubbleBtn" title="إغلاق">✕</button>
       <div class="speech-text" id="mascotSpeechText">أهلاً بكِ في قلوبنا أمان! انقري عليّ لأخبركِ سراً لطيفاً ✨</div>
       <div class="speech-arrow"></div>
     </div>
