@@ -91,8 +91,57 @@
       // صوت التنبيه اللطيف
       playBeep(330, 'sine', 0.22, 0, 0.15);
       playBeep(392, 'sine', 0.3, 0.12, 0.15);
+    },
+    tick: function () {
+      // تكة العجلة
+      playBeep(880, 'sine', 0.03, 0, 0.08);
+    },
+    fairy: function () {
+      // بريق النجوم الساحر
+      [523.25, 659.25, 783.99, 1046.50, 1318.51].forEach((f, i) => {
+        playBeep(f, 'triangle', 0.25, i * 0.06, 0.12);
+      });
     }
   };
+
+  // محرك النغمات الهادئة التوليدي (Procedural Kalimba Lofi Ambient)
+  let isMusicPlaying = false;
+  let musicInterval = null;
+  const pentatonicScale = [523.25, 587.33, 659.25, 783.99, 880.00, 1046.50, 1174.66]; // C D E G A C D
+
+  function toggleAmbientMusic() {
+    initAudio();
+    isMusicPlaying = !isMusicPlaying;
+    const musicBtn = document.getElementById('musicToggleBtn');
+    if (musicBtn) {
+      musicBtn.classList.toggle('playing', isMusicPlaying);
+      const text = musicBtn.querySelector('.music-btn-text');
+      if (text) text.textContent = isMusicPlaying ? 'إيقاف النغمات' : 'نغمات هادئة';
+    }
+
+    if (isMusicPlaying) {
+      playKalimbaStep();
+      musicInterval = setInterval(playKalimbaStep, 950);
+    } else {
+      clearInterval(musicInterval);
+      musicInterval = null;
+    }
+  }
+
+  function playKalimbaStep() {
+    if (!isMusicPlaying || !isSoundEnabled) return;
+    const note = pentatonicScale[Math.floor(Math.random() * pentatonicScale.length)];
+    playBeep(note, 'sine', 0.75, 0, 0.035);
+    if (Math.random() > 0.6) {
+      const harm = pentatonicScale[Math.floor(Math.random() * pentatonicScale.length)];
+      playBeep(harm, 'triangle', 0.55, 0.18, 0.025);
+    }
+  }
+
+  const musicBtn = document.getElementById('musicToggleBtn');
+  if (musicBtn) {
+    musicBtn.addEventListener('click', toggleAmbientMusic);
+  }
 
   // تبديل الصوت
   const soundBtn = document.getElementById('soundToggleBtn');
@@ -103,7 +152,7 @@
       soundBtn.classList.toggle('muted', !isSoundEnabled);
       const textSpan = soundBtn.querySelector('.sound-btn-text');
       if (textSpan) {
-        textSpan.textContent = isSoundEnabled ? 'الأصوات مفعلة' : 'الأصوات مكتومة';
+        textSpan.textContent = isSoundEnabled ? 'المؤثرات' : 'مكتومة';
       }
       if (isSoundEnabled) {
         SFX.click();
@@ -321,10 +370,31 @@
       saveState();
       updateUI();
       SFX.star();
+      SFX.fairy();
       launchConfetti();
+      mascotShout(`🎉 مبارك يا بطلة! أحرزتِ النجمة رقم ${state.stars} ⭐! شجرة الأمان تزهر بنوركِ!`);
       return true;
     }
     return false;
+  }
+
+  function updateLivingTree(stars) {
+    for (let i = 1; i <= 5; i++) {
+      const node = document.getElementById(`treeNode${i}`);
+      if (node) {
+        node.classList.toggle('earned', i <= stars);
+      }
+    }
+    const caption = document.getElementById('treeCaptionText');
+    if (caption) {
+      if (stars === 0) {
+        caption.innerHTML = 'شجرة الأمان المدرسية: مع كل نجمة تحرزينها، يزهر فرعٌ مضيء وتتفتح زهرة لطف جديدة!';
+      } else if (stars < 5) {
+        caption.innerHTML = `🌸 ما شاء الله! أزهرت شجرتنا بـ <b>${stars} أفرع مضيئة</b>. واصلي رحلتكِ لتتفتح كل أزهار الأمان!`;
+      } else {
+        caption.innerHTML = '👑 <b>حديقة الأمان في كامل بهجتها ونضارتها!</b> مبروك يا سفيرة اللطف بمدرسة متوسطة 92!';
+      }
+    }
   }
 
   function updateUI() {
@@ -400,6 +470,9 @@
     if (mobBadge) {
       mobBadge.textContent = `${state.stars}/5`;
     }
+
+    // 8. تحديث شجرة الأمان التفاعلية الحية
+    updateLivingTree(state.stars);
   }
 
 
@@ -815,7 +888,7 @@
       if (!container) return;
       container.innerHTML = notes.map((n, idx) => `
         <div class="sticky-note ${n.color || 'yellow'}" style="transform: rotate(${(idx % 2 === 0 ? -1.5 : 1.5)}deg);">
-          <div class="note-pin"></div>
+          <div class="note-pin">${n.sticker || '🌸'}</div>
           <div class="note-text">${escapeHtml(n.text)}</div>
           <div class="note-footer">
             <span>✍️ ${escapeHtml(n.author || 'طالبة أمان')}</span>
@@ -899,7 +972,7 @@
       } catch (err) {}
     }
 
-    // 3. محدد ألوان البطاقات
+    // 3. محدد ألوان وملصقات البطاقات
     let activeColor = 'yellow';
     const colorButtons = document.querySelectorAll('.color-opt-btn');
     colorButtons.forEach(btn => {
@@ -907,6 +980,17 @@
         colorButtons.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         activeColor = btn.dataset.color || 'yellow';
+        SFX.click();
+      });
+    });
+
+    let activeSticker = '🌸';
+    const stickerButtons = document.querySelectorAll('.sticker-opt-btn');
+    stickerButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        stickerButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeSticker = btn.dataset.sticker || '🌸';
         SFX.click();
       });
     });
@@ -931,6 +1015,7 @@
           text: text,
           author: author || (state.studentName || 'طالبة أمان'),
           color: activeColor,
+          sticker: activeSticker,
           likes: 1,
           timestamp: Date.now()
         };
@@ -1408,6 +1493,295 @@
     }, { passive: true });
   }
 
+  // =========================================================================
+  // 9. عجلة صنائع المعروف والبهجة التفاعلية (Kindness Fortune Wheel Engine)
+  // =========================================================================
+  function setupKindnessWheel() {
+    const wheelCanvas = document.getElementById('wheelCanvas');
+    if (!wheelCanvas) return;
+    const wctx = wheelCanvas.getContext('2d');
+    const spinBtn = document.getElementById('spinWheelBtn');
+    const spinActionBtn = document.getElementById('spinWheelActionBtn');
+    const resTitle = document.getElementById('wheelResultTitle');
+    const resDesc = document.getElementById('wheelResultDesc');
+
+    const sectors = [
+      { label: 'ابتسامة لمعلمتكِ', icon: '🌸', color: '#fef08a', desc: 'ألقِ التحية بابتسامة صادقة وبشاشة وجه على معلمتكِ اليوم لتدخلي السرور على قلبها.' },
+      { label: 'تشجيع لزميلة', icon: '💬', color: '#fbcfe8', desc: 'قولي لزميلة تبدو متعبة أو هادئة: "أنا فخورة بوجودكِ معنا، أنتِ مميزة ولطيفة".' },
+      { label: 'تنظيم الفصل', icon: '📚', color: '#bbf7d0', desc: 'شاركي في ترتيب مقاعد الفصل أو مسح السبورة بلطف دون أن يُطلب منكِ ذلك.' },
+      { label: 'إفشاء السلام', icon: '🤝', color: '#bae6fd', desc: 'سلّمي بترحيب دافئ على 3 زميلات في فناء المدرسة لم تعتادي التحدث معهن.' },
+      { label: 'دعوة في الغيب', icon: '🤍', color: '#fed7aa', desc: 'ادعِ لصديقتكِ في سركِ براحة البال والنجاح؛ دعوة الأخ لأخيه بظهر الغيب مستجابة.' },
+      { label: 'شكر لعاملة المدرسة', icon: '💌', color: '#ddd6fe', desc: 'قدّمي كلمة شكر لطيفة وابتسامة تقدير لعاملة المدرسة تقديراً لجهدها العظيم.' },
+      { label: 'مشاركة وقلم', icon: '✨', color: '#fecdd3', desc: 'أعيري قلماً أو مسطرة برحابة صدر لزميلة نسيته، وصافحيها بود.' },
+      { label: 'درع الغائبة', icon: '🛡️', color: '#c7d2fe', desc: 'إذا ذُكرت زميلة بما لا تحب، اقطعي الحديث بلطف: "اذكروها بالخير، لا نرضى عليها".' }
+    ];
+
+    let currentAngle = 0;
+    let isSpinning = false;
+    const numSectors = sectors.length;
+    const arc = (2 * Math.PI) / numSectors;
+
+    function drawWheel() {
+      const radius = wheelCanvas.width / 2;
+      wctx.clearRect(0, 0, wheelCanvas.width, wheelCanvas.height);
+
+      for (let i = 0; i < numSectors; i++) {
+        const start = currentAngle + i * arc;
+        const end = start + arc;
+
+        wctx.beginPath();
+        wctx.moveTo(radius, radius);
+        wctx.arc(radius, radius, radius - 8, start, end);
+        wctx.closePath();
+        wctx.fillStyle = sectors[i].color;
+        wctx.fill();
+        wctx.strokeStyle = '#ffffff';
+        wctx.lineWidth = 3;
+        wctx.stroke();
+
+        // رسم النص والأيقونة
+        wctx.save();
+        wctx.translate(radius, radius);
+        wctx.rotate(start + arc / 2);
+        wctx.textAlign = 'right';
+        wctx.fillStyle = '#1c3d2d';
+        wctx.font = 'bold 12px "Tajawal", sans-serif';
+        wctx.fillText(`${sectors[i].label} ${sectors[i].icon}`, radius - 24, 4);
+        wctx.restore();
+      }
+
+      // الإطار الخارجي
+      wctx.beginPath();
+      wctx.arc(radius, radius, radius - 4, 0, 2 * Math.PI);
+      wctx.strokeStyle = '#d4e5d8';
+      wctx.lineWidth = 5;
+      wctx.stroke();
+    }
+    drawWheel();
+
+    function spin() {
+      if (isSpinning) return;
+      isSpinning = true;
+      SFX.click();
+
+      const spinRounds = 4 + Math.random() * 3;
+      const targetSector = Math.floor(Math.random() * numSectors);
+      const targetAngle = (3 * Math.PI / 2) - (targetSector * arc + arc / 2);
+      const totalRotation = spinRounds * (2 * Math.PI) + (targetAngle - (currentAngle % (2 * Math.PI)));
+
+      const duration = 4000;
+      const startTime = performance.now();
+      const initialAngle = currentAngle;
+      let lastSectorTick = -1;
+
+      function animate(now) {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const ease = 1 - Math.pow(1 - progress, 3);
+
+        currentAngle = initialAngle + totalRotation * ease;
+        drawWheel();
+
+        const currentSectorIdx = Math.floor((((3 * Math.PI / 2 - currentAngle) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI)) / arc);
+        if (currentSectorIdx !== lastSectorTick) {
+          SFX.tick();
+          lastSectorTick = currentSectorIdx;
+        }
+
+        if (progress < 1) {
+          requestAnimationFrame(animate);
+        } else {
+          isSpinning = false;
+          const chosen = sectors[targetSector];
+          SFX.fanfare();
+          launchConfetti();
+          mascotShout(`🎉 العجلة اختارت لكِ: ${chosen.label}!`);
+
+          if (resTitle) resTitle.innerHTML = `مهمتكِ المبهجة: ${chosen.label} ${chosen.icon}`;
+          if (resDesc) resDesc.innerHTML = chosen.desc;
+
+          openSuccessModal(`مهمة اللطف: ${chosen.label} ${chosen.icon}`, chosen.desc);
+        }
+      }
+      requestAnimationFrame(animate);
+    }
+
+    if (spinBtn) spinBtn.onclick = spin;
+    if (spinActionBtn) spinActionBtn.onclick = spin;
+  }
+
+  // =========================================================================
+  // 10. مختبر المشاعر وبوصلة الأمان النفسي (Feelings Sanctuary)
+  // =========================================================================
+  function setupFeelingsSanctuary() {
+    const cards = document.querySelectorAll('.mood-card');
+    const titleEl = document.getElementById('moodFeedbackTitle');
+    const subEl = document.getElementById('moodFeedbackSubtitle');
+    const bodyEl = document.getElementById('moodFeedbackBody');
+    const breathCircle = document.getElementById('breathingCircle');
+
+    const moodData = {
+      happy: {
+        title: 'أنتِ شعلة بهجة وأمان في مدرستنا! 🌟',
+        subtitle: 'الموجهة أ. إيمان العمري تشارككِ هذه الفرحة:',
+        body: 'طاقتكِ الجميلة وابتسامتكِ تصنعان فرقاً هائلاً في متوسطة 92! انشري هذا النور بمصافحة زميلة تبدو هادئة، وكوني عوناً ومصدراً للأمان لمن حولكِ.'
+      },
+      calm: {
+        title: 'السكينة والهدوء نعمة تصنع التميز 😌',
+        subtitle: 'رسالة ود من التوجيه الطلابي:',
+        body: 'الحمد لله على راحة البال. استمتعي بيومكِ الدراسي، وتذكري أن حضوركِ الهادئ يبعث الطمأنينة في صديقاتكِ ومعلماتكِ.'
+      },
+      worried: {
+        title: 'لا بأس بالقلق… خذي نفساً عميقاً، لستِ وحدكِ 🥺',
+        subtitle: 'توجيه تربوي هادئ من أ. إيمان العمري:',
+        body: 'كل المشاعر طبيعية وتمر بسلام. أغمضي عينيكِ، ركزي مع دائرة التنفس أدناه، وتذكري أن التوجيه الطلابي دائماً مساحة سرية آمنة لاحتضان مخاوفكِ.'
+      },
+      sad: {
+        title: 'قلبكِ غالٍ علينا، ولا تستحقين أي ضيق 🤍',
+        subtitle: 'الموجهة الطلابية أ. إيمان العمري معكِ:',
+        body: 'إذا ضايقكِ موقف أو كلمة في المدرسة، تذكري أن قيمتكِ لا يحددها كلام الآخرين. لا تكتمي حزنكِ؛ تعالي لمكتب التوجيه الطلابي لنستمع إليكِ ونساندكِ بكل حب وسرية.'
+      },
+      needHelp: {
+        title: 'شجاعتكِ في طلب المشورة هي أولى خطوات الأمان 🌿',
+        subtitle: 'مكتب التوجيه الطلابي مفتوح لكِ دائماً:',
+        body: 'طلب المساعدة ليس ضعفاً بل قوة! يمكنكِ التوجه لأستاذة إيمان العمري مباشرة في الفسحة أو استخدام نماذج «كيف أبدأ الحديث؟» لتخبريها بما يجول في خاطركِ بأمان.'
+      }
+    };
+
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        cards.forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+        const mood = card.dataset.mood;
+        const d = moodData[mood] || moodData.happy;
+
+        SFX.click();
+        playBeep(440, 'sine', 0.5, 0, 0.15);
+        playBeep(554.37, 'sine', 0.6, 0.12, 0.15);
+
+        if (titleEl) titleEl.textContent = d.title;
+        if (subEl) subEl.textContent = d.subtitle;
+        if (bodyEl) bodyEl.textContent = d.body;
+
+        if (breathCircle) {
+          breathCircle.style.animation = 'none';
+          void breathCircle.offsetWidth;
+          breathCircle.style.animation = 'breathePulse 6s infinite ease-in-out';
+        }
+      });
+    });
+  }
+
+  // =========================================================================
+  // 11. رفيقة الأمان التفاعلية الذكية «أمانة» (Mascot Companion)
+  // =========================================================================
+  let mascotShout = () => {};
+
+  function setupMascotWidget() {
+    const avatarBtn = document.getElementById('mascotAvatarBtn');
+    const bubble = document.getElementById('mascotSpeechBubble');
+    const bubbleText = document.getElementById('mascotSpeechText');
+
+    const tips = [
+      'أنتِ بطلة متميزة في مدرسة متوسطة 92! ✨',
+      'الكلمة الطيبة بلسم ينشر الأمان في قلوب الجميع 🌸',
+      'إذا رأيتِ زميلة وحيدة، ابتسمي لها وقولي: أهلاً بكِ معنا! 💖',
+      'لا تسكتي عن التنمّر؛ طلب المساعدة شجاعة تحميكِ وتحمي غيركِ 🛡️',
+      'كل نجمة تكسبينها تزهر فرعاً في شجرة مدرستنا الجميلة 🌿',
+      'أستاذة إيمان العمري وأستاذة سارة الكلثم فخورتان بوعيكِ الراقي! 👑',
+      'ميثاق قلوبنا أمان هو عهد الشرف والمحبة بيننا جميعاً 🤍',
+      'ابتسامتكِ اليوم ستجعل فناء المدرسة أكثر إشراقاً! ☀️'
+    ];
+
+    let tipIdx = 0;
+
+    function nextTip() {
+      tipIdx = (tipIdx + 1) % tips.length;
+      if (bubbleText) {
+        bubbleText.textContent = tips[tipIdx];
+      }
+      playBeep(659.25, 'triangle', 0.2, 0, 0.12);
+      playBeep(880.00, 'triangle', 0.35, 0.1, 0.14);
+      launchConfetti(window.innerWidth * 0.15, window.innerHeight * 0.85);
+    }
+
+    if (avatarBtn) {
+      avatarBtn.onclick = () => {
+        nextTip();
+        if (avatarBtn) {
+          avatarBtn.style.transform = 'scale(1.25) rotate(15deg)';
+          setTimeout(() => { avatarBtn.style.transform = ''; }, 300);
+        }
+      };
+    }
+    if (bubble) {
+      bubble.onclick = nextTip;
+    }
+
+    mascotShout = (msg) => {
+      if (bubbleText) {
+        bubbleText.textContent = msg;
+      }
+      if (bubble) {
+        bubble.style.animation = 'none';
+        void bubble.offsetWidth;
+        bubble.style.animation = 'bubblePop 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+      }
+    };
+
+    setInterval(() => {
+      tipIdx = (tipIdx + 1) % tips.length;
+      if (bubbleText) {
+        bubbleText.textContent = tips[tipIdx];
+      }
+    }, 16000);
+  }
+
+  // =========================================================================
+  // 12. ذرات النور والبريق الساحر مع اللمس والمؤشر (Sparkle Dust Trail)
+  // =========================================================================
+  function setupSparkleDust() {
+    let lastEmit = 0;
+    const colors = ['#f5c871', '#cf736b', '#68d391', '#63b3ed', '#f6ad55', '#faf089'];
+
+    function emitSparkle(x, y) {
+      const now = performance.now();
+      if (now - lastEmit < 55) return;
+      lastEmit = now;
+
+      const spark = document.createElement('div');
+      spark.textContent = Math.random() > 0.5 ? '✦' : '✧';
+      spark.style.position = 'fixed';
+      spark.style.left = `${x}px`;
+      spark.style.top = `${y}px`;
+      spark.style.color = colors[Math.floor(Math.random() * colors.length)];
+      spark.style.fontSize = `${Math.random() * 12 + 10}px`;
+      spark.style.pointerEvents = 'none';
+      spark.style.zIndex = '9999';
+      spark.style.transition = 'all 0.65s cubic-bezier(0.2, 0.8, 0.2, 1)';
+      spark.style.transform = 'translate(-50%, -50%) scale(1)';
+      spark.style.opacity = '1';
+      document.body.appendChild(spark);
+
+      const vx = (Math.random() - 0.5) * 35;
+      const vy = Math.random() * -25 - 12;
+
+      requestAnimationFrame(() => {
+        spark.style.transform = `translate(calc(-50% + ${vx}px), calc(-50% + ${vy}px)) scale(0.3) rotate(${Math.random() * 90}deg)`;
+        spark.style.opacity = '0';
+      });
+
+      setTimeout(() => { spark.remove(); }, 650);
+    }
+
+    window.addEventListener('mousemove', (e) => emitSparkle(e.clientX, e.clientY), { passive: true });
+    window.addEventListener('touchmove', (e) => {
+      if (e.touches && e.touches[0]) {
+        emitSparkle(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    }, { passive: true });
+  }
+
   // مساعد لتهريب نصوص HTML
   function escapeHtml(s) {
     if (!s) return '';
@@ -1424,6 +1798,10 @@
   document.addEventListener('DOMContentLoaded', () => {
     updateUI();
     setupStickyWall();
+    setupKindnessWheel();
+    setupFeelingsSanctuary();
+    setupMascotWidget();
+    setupSparkleDust();
     bindPageEvents();
   });
 

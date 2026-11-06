@@ -44,17 +44,24 @@
     <nav class="topbar-nav">
       <a class="nav-link" href="#journey">رحلة الأمان</a>
       <a class="nav-link" href="#learning">مساحة التعلّم</a>
+      <a class="nav-link" href="#wheelSection">عجلة اللطف</a>
       <a class="nav-link" href="#stickyWallSection">جدارية اللطف</a>
+      <a class="nav-link" href="#feelingsSection">بوصلة المشاعر</a>
       <a class="nav-link" href="#pledge">ميثاق الأمان</a>
       <a class="nav-link" href="#help">طلب المساعدة</a>
     </nav>
 
     <div class="topbar-tools">
+      <button class="sound-toggle-btn music-toggle-btn" id="musicToggleBtn" title="تشغيل نغمات هادئة (كاليمبا)">
+        <span class="music-icon">🎵</span>
+        <span class="music-btn-text">نغمات هادئة</span>
+      </button>
+
       <button class="sound-toggle-btn" id="soundToggleBtn" title="التحكم بالأصوات التفاعلية">
         <div class="sound-wave">
           <span></span><span></span><span></span>
         </div>
-        <span class="sound-btn-text">الأصوات مفعلة</span>
+        <span class="sound-btn-text">المؤثرات</span>
       </button>
 
       <div class="mini-stars-pill">
@@ -165,6 +172,48 @@
       <p class="progress-status-text" id="progressStatusText">
         أحرزتِ <b>0 من 5 نجوم</b>. أكملي الأنشطة لتفتحي وسام وشهادة الأمان المعتمدة.
       </p>
+
+      <!-- شجرة الأمان التفاعلية الحية (Living Tree of Kindness) -->
+      <div class="safety-tree-card" id="safetyTreeCard" title="شجرة أمان متوسطة 92 تزهر وتتلألأ مع كل إنجاز!">
+        <div class="tree-canvas-wrap">
+          <div class="tree-ambient-glow" id="treeGlow"></div>
+          <div class="tree-interactive-stage">
+            <div class="tree-creature b1" title="فراشة الأمان">🦋</div>
+            <div class="tree-creature b2" title="زهرة اللطف">🌸</div>
+            <div class="tree-creature b3" title="طائر الفرح">🕊️</div>
+
+            <!-- ثمار وأزهار النجوم الخمسة التفاعلية -->
+            <div class="tree-node" id="treeNode1" data-label="1. مقياس التنمر">
+              <span class="node-icon">🌱</span>
+              <span class="node-tag">وعي 1</span>
+            </div>
+            <div class="tree-node" id="treeNode2" data-label="2. محاكي المواقف">
+              <span class="node-icon">💬</span>
+              <span class="node-tag">شجاعة 2</span>
+            </div>
+            <div class="tree-node" id="treeNode3" data-label="3. تحدي اللطف">
+              <span class="node-icon">☀️</span>
+              <span class="node-tag">إحسان 3</span>
+            </div>
+            <div class="tree-node" id="treeNode4" data-label="4. ميثاق الشرف">
+              <span class="node-icon">🔏</span>
+              <span class="node-tag">عهد 4</span>
+            </div>
+            <div class="tree-node" id="treeNode5" data-label="5. جدارية الكلمات">
+              <span class="node-icon">🌸</span>
+              <span class="node-tag">أثر 5</span>
+            </div>
+
+            <!-- تاج الشجرة وجذعها الكرتوني الجميل -->
+            <div class="tree-crown"></div>
+            <div class="tree-trunk"></div>
+          </div>
+        </div>
+        <div class="tree-caption-bar">
+          <span class="tree-caption-icon">🌿</span>
+          <span id="treeCaptionText">شجرة الأمان المدرسية: مع كل نجمة تحرزينها، يزهر فرعٌ مضيء وتتفتح زهرة لطف جديدة!</span>
+        </div>
+      </div>
 
       <!-- كبسولات الأهداف الخمسة (يمكن النقر عليها لبدء النشاط مباشرة) -->
       <div class="journey-steps-grid">
@@ -281,6 +330,40 @@
       </div>
     </section>
 
+    <!-- عجلة صنائع المعروف واللطف (Kindness Fortune Wheel) -->
+    <section class="wheel-section panel" id="wheelSection">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow-tag">🎡 لعبة تفاعلية يومية</span>
+          <h2>عجلة صنائع المعروف والبهجة 🌸</h2>
+          <p style="color:var(--text-muted); margin-top:4px;">أديري العجلة واكتشفي المهمة اللطيفة التي ستصنعين بها أثراً جميلاً وابتسامة في مدرستنا اليوم!</p>
+        </div>
+        <span class="sparkle-icon">✨</span>
+      </div>
+
+      <div class="wheel-game-container">
+        <!-- منصة العجلة التفاعلية -->
+        <div class="wheel-stage">
+          <div class="wheel-pointer">▼</div>
+          <canvas id="wheelCanvas" width="340" height="340"></canvas>
+          <button class="wheel-center-btn" id="spinWheelBtn" title="انقري للتدوير!">
+            <span>دوران</span>
+            <span>🎡</span>
+          </button>
+        </div>
+
+        <!-- بطاقة نتيجة العجلة -->
+        <div class="wheel-result-card" id="wheelResultCard">
+          <div class="wheel-result-badge">مهمتكِ الممتعة لليوم 🌟</div>
+          <h3 id="wheelResultTitle">جاهزة لصناعة الأثر؟</h3>
+          <p id="wheelResultDesc">انقري على زر <b>«دوران 🎡»</b> لتدور العجلة وتختار لكِ مهمة لطيفة وجميلة تُبهج يومكِ ويوم صديقاتكِ في مدرسة متوسطة 92!</p>
+          <button class="btn-primary" id="spinWheelActionBtn" style="width:100%; margin-top:14px;">
+            <span>أديري العجلة الآن ✨</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
     <!-- جدارية الكلمات الطيبة (Virtual Sticky Notes Wall) -->
     <section class="wall-section" id="stickyWallSection">
       <div class="wall-container">
@@ -304,11 +387,19 @@
           </div>
           <div class="wall-input-controls">
             <div class="color-picker-group" id="colorPickerGroup" title="اختاري لون بطاقتكِ">
-              <span class="color-picker-label">لون البطاقة:</span>
+              <span class="color-picker-label">اللون:</span>
               <button type="button" class="color-opt-btn active" data-color="yellow" style="background:#fef3c7;" title="أصفر دافئ"></button>
               <button type="button" class="color-opt-btn" data-color="pink" style="background:#ffe4e6;" title="وردي لطيف"></button>
               <button type="button" class="color-opt-btn" data-color="green" style="background:#dcfce7;" title="أخضر منعش"></button>
               <button type="button" class="color-opt-btn" data-color="blue" style="background:#e0f2fe;" title="أزرق هادئ"></button>
+            </div>
+            <div class="sticker-picker-group" id="stickerPickerGroup" title="اختاري ملصقاً تزيينياً لبطاقتكِ">
+              <span class="color-picker-label">الملصق:</span>
+              <button type="button" class="sticker-opt-btn active" data-sticker="🌸">🌸</button>
+              <button type="button" class="sticker-opt-btn" data-sticker="⭐">⭐</button>
+              <button type="button" class="sticker-opt-btn" data-sticker="🤍">🤍</button>
+              <button type="button" class="sticker-opt-btn" data-sticker="🦋">🦋</button>
+              <button type="button" class="sticker-opt-btn" data-sticker="👑">👑</button>
             </div>
             <button class="btn-primary" id="addStickyNoteBtn">
               <span>أنشري في الجدارية للجميع</span>
@@ -320,6 +411,69 @@
         <!-- شبكة الملاحظات اللاصقة الملونة -->
         <div class="sticky-notes-grid" id="stickyNotesGrid">
           <!-- يتم التوليد ديناميكياً بواسطة JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <!-- مختبر المشاعر وبوصلة الأمان (Feelings Sanctuary & Mood Barometer) -->
+    <section class="feelings-section panel" id="feelingsSection">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow-tag">🌸 كيف تشعرين اليوم؟</span>
+          <h2>مختبر المشاعر وبوصلة الأمان النفسي 💖</h2>
+          <p style="color:var(--text-muted); margin-top:4px;">مشاعركِ مهمة وصوتكِ مسموع دائماً. اختاري ما يعبر عنكِ لتتلقي رسالة دافئة وتمريناً مهدئاً:</p>
+        </div>
+        <span class="sparkle-icon">🕊️</span>
+      </div>
+
+      <!-- كروت المشاعر الخمسة -->
+      <div class="mood-cards-row">
+        <button class="mood-card active" data-mood="happy">
+          <div class="mood-emoji">🌟</div>
+          <b>سعيدة ومتحمسة</b>
+          <span>طاقتي إيجابية</span>
+        </button>
+        <button class="mood-card" data-mood="calm">
+          <div class="mood-emoji">😌</div>
+          <b>هادئة ومطمئنة</b>
+          <span>يومي يسير بخير</span>
+        </button>
+        <button class="mood-card" data-mood="worried">
+          <div class="mood-emoji">🥺</div>
+          <b>متوترة أو قلقة</b>
+          <span>أحتاج لتهدئة نفسي</span>
+        </button>
+        <button class="mood-card" data-mood="sad">
+          <div class="mood-emoji">💔</div>
+          <b>موقف ضايقني</b>
+          <span>أشعر بضيق أو عتاب</span>
+        </button>
+        <button class="mood-card" data-mood="needHelp">
+          <div class="mood-emoji">🌿</div>
+          <b>أحتاج استشارة</b>
+          <span>أريد التحدث مع الموجهة</span>
+        </button>
+      </div>
+
+      <!-- بطاقة الدعم التفاعلية مع تمرين التنفس المهدئ -->
+      <div class="mood-feedback-box" id="moodFeedbackBox">
+        <div class="mood-feedback-header">
+          <div class="mood-support-avatar">🌿</div>
+          <div>
+            <h3 id="moodFeedbackTitle">أنتِ منارة للبهجة في متوسطة 92! ✨</h3>
+            <p id="moodFeedbackSubtitle">الموجهة الطلابية أ. إيمان العمري تشارككِ هذه التوجيهات الدافئة:</p>
+          </div>
+        </div>
+        <div class="mood-feedback-body" id="moodFeedbackBody">
+          سعادتكِ تصنع فارقاً حقيقياً في مدرستنا! استثمري هذه الطاقة الجميلة بنشر ابتسامة لطيفة لزميلة تبدو هادئة أو مساندة صديقة في مسألة تعليمية.
+        </div>
+
+        <!-- تمرين التنفس التفاعلي الهادئ -->
+        <div class="breathing-exercise-wrap" id="breathingWrap">
+          <div class="breathing-circle" id="breathingCircle">
+            <span class="breathing-text" id="breathingText">شهيق 🌸</span>
+          </div>
+          <p class="breathing-hint">تمرين التنفس الهادئ: تنفسي مع الدائرة لتشعري بالراحة والسكينة</p>
         </div>
       </div>
     </section>
@@ -435,9 +589,17 @@
       <span class="mob-nav-label">رحلتي</span>
       <span class="mob-nav-badge" id="mobStarsBadge">0/5</span>
     </a>
+    <a href="#wheelSection" class="mob-nav-item" data-section="wheelSection">
+      <span class="mob-nav-icon">🎡</span>
+      <span class="mob-nav-label">العجلة</span>
+    </a>
     <a href="#stickyWallSection" class="mob-nav-item" data-section="stickyWallSection">
       <span class="mob-nav-icon">💌</span>
       <span class="mob-nav-label">الجدارية</span>
+    </a>
+    <a href="#feelingsSection" class="mob-nav-item" data-section="feelingsSection">
+      <span class="mob-nav-icon">🌸</span>
+      <span class="mob-nav-label">المشاعر</span>
     </a>
     <a href="#pledge" class="mob-nav-item" data-section="pledge">
       <span class="mob-nav-icon">🔏</span>
@@ -448,6 +610,37 @@
       <span class="mob-nav-label">الشهادة</span>
     </button>
   </nav>
+
+  <!-- رفيقة الأمان التفاعلية الذكية «نجمة الأمان - أمانة» (Interactive Mascot Widget) -->
+  <aside class="mascot-widget" id="mascotWidget" aria-label="رفيقة الأمان التفاعلية">
+    <div class="mascot-speech-bubble" id="mascotSpeechBubble">
+      <div class="speech-text" id="mascotSpeechText">أهلاً بكِ في قلوبنا أمان! انقري عليّ لأخبركِ سراً لطيفاً ✨</div>
+      <div class="speech-arrow"></div>
+    </div>
+    <div class="mascot-avatar" id="mascotAvatarBtn" title="انقري للحديث مع رفيقة الأمان!">
+      <div class="mascot-sparkle s1">✦</div>
+      <div class="mascot-sparkle s2">✧</div>
+      <svg class="mascot-svg" viewBox="0 0 100 100">
+        <defs>
+          <radialGradient id="starGrad" cx="50%" cy="40%" r="55%">
+            <stop offset="0%" stop-color="#fff8db" />
+            <stop offset="70%" stop-color="#f5c871" />
+            <stop offset="100%" stop-color="#d49f3f" />
+          </radialGradient>
+        </defs>
+        <polygon points="50,5 63,33 94,36 71,58 78,89 50,73 22,89 29,58 6,36 37,33" fill="url(#starGrad)" stroke="#c28a2a" stroke-width="2.5" stroke-linejoin="round" />
+        <circle cx="36" cy="54" r="5" fill="#fca5a5" opacity="0.85" />
+        <circle cx="64" cy="54" r="5" fill="#fca5a5" opacity="0.85" />
+        <ellipse class="mascot-eye eye-l" cx="40" cy="46" rx="4" ry="5.5" fill="#1c3d2d" />
+        <ellipse class="mascot-eye eye-r" cx="60" cy="46" rx="4" ry="5.5" fill="#1c3d2d" />
+        <circle cx="41.5" cy="44" r="1.5" fill="#ffffff" />
+        <circle cx="61.5" cy="44" r="1.5" fill="#ffffff" />
+        <path d="M 43 55 Q 50 63 57 55" fill="none" stroke="#1c3d2d" stroke-width="2.5" stroke-linecap="round" />
+        <path d="M 43 14 L 46 8 L 50 12 L 54 8 L 57 14 Z" fill="#cf736b" stroke="#fff" stroke-width="1" />
+      </svg>
+      <div class="mascot-badge">أمانة 🌿</div>
+    </div>
+  </aside>
 
   <!-- نافذة المودال التفاعلية الموحدة -->
   <div class="modal-overlay" id="modalOverlay" aria-hidden="true">

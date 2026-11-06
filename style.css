@@ -1871,6 +1871,605 @@ footer {
   .sticky-notes-grid {
     grid-template-columns: 1fr;
   }
+
+  /* أجهزة الجوال والآيفون: عجلة اللطف ومختبر المشاعر وتميمة أمانة */
+  .wheel-game-container {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+  .wheel-stage {
+    width: 290px;
+    height: 290px;
+  }
+  #wheelCanvas {
+    width: 280px !important;
+    height: 280px !important;
+  }
+  .mood-cards-row {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .mascot-widget {
+    bottom: 74px;
+    left: 10px;
+  }
+  .mascot-speech-bubble {
+    max-width: 175px;
+    font-size: 0.78rem;
+    padding: 8px 12px;
+  }
+  .mascot-avatar {
+    width: 54px;
+    height: 54px;
+  }
+}
+
+/* ==========================================================================
+   الميزات التفاعلية الباهرة والجمالية الفائقة (Vibrant Magical Interactive Features)
+   ========================================================================== */
+
+/* زر النغمات الهادئة (Ambient Kalimba Toggle) */
+.music-toggle-btn {
+  border-color: #f5c871 !important;
+  background: #fffdf5 !important;
+  color: #ad7c24 !important;
+}
+
+.music-toggle-btn.playing {
+  background: linear-gradient(135deg, #faebb8, #f5c871) !important;
+  color: #382500 !important;
+  border-color: #d49f3f !important;
+  box-shadow: 0 0 15px rgba(245, 200, 113, 0.45);
+}
+
+/* 1. شجرة الأمان التفاعلية الحية (Living Tree of Kindness) */
+.safety-tree-card {
+  background: radial-gradient(circle at 50% 30%, #f5fcf5 0%, #edf7ee 100%);
+  border: 2px solid #cce2ce;
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin: 25px 0 30px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(45, 94, 70, 0.08);
+  transition: all 0.4s ease;
+}
+
+.tree-canvas-wrap {
+  position: relative;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tree-ambient-glow {
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, rgba(245, 200, 113, 0.3) 0%, rgba(68, 126, 95, 0.05) 70%, transparent 100%);
+  border-radius: 50%;
+  animation: treeGlowPulse 3s infinite ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes treeGlowPulse {
+  0%, 100% { transform: scale(0.9); opacity: 0.6; }
+  50% { transform: scale(1.15); opacity: 0.95; }
+}
+
+.tree-interactive-stage {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  height: 200px;
+}
+
+.tree-trunk {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 34px;
+  height: 85px;
+  background: linear-gradient(180deg, #8b5a2b, #5c3a1e);
+  border-radius: 8px 8px 16px 16px;
+}
+
+.tree-crown {
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 230px;
+  height: 140px;
+  background: radial-gradient(circle, #5ba878 0%, #2d5e46 80%);
+  border-radius: 50% 50% 45% 45%;
+  box-shadow: 0 8px 25px rgba(45, 94, 70, 0.25);
+  opacity: 0.92;
+}
+
+.tree-node {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #d4e5d8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.tree-node:hover {
+  transform: scale(1.18);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+}
+
+.tree-node.earned {
+  background: linear-gradient(135deg, #faebb8, #f5c871) !important;
+  border-color: #caa45d !important;
+  box-shadow: 0 0 18px rgba(212, 159, 63, 0.6) !important;
+  animation: nodeBloom 0.6s ease forwards;
+}
+
+@keyframes nodeBloom {
+  0% { transform: scale(0.6); }
+  60% { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+
+.tree-node .node-icon { font-size: 1.25rem; }
+.tree-node .node-tag {
+  font-size: 0.62rem;
+  font-weight: 800;
+  color: #1c3d2d;
+  margin-top: -2px;
+}
+
+#treeNode1 { top: 75px; right: calc(50% + 75px); }
+#treeNode2 { top: 15px; right: calc(50% + 35px); }
+#treeNode3 { top: 0px; left: 50%; transform: translateX(-50%); }
+#treeNode4 { top: 15px; left: calc(50% + 35px); }
+#treeNode5 { top: 75px; left: calc(50% + 75px); }
+
+.tree-creature {
+  position: absolute;
+  font-size: 1.5rem;
+  z-index: 6;
+  pointer-events: none;
+}
+.tree-creature.b1 {
+  top: 30px; right: 20%;
+  animation: creatureFloat1 4s infinite ease-in-out;
+}
+.tree-creature.b2 {
+  top: 70px; left: 22%;
+  animation: creatureFloat2 5s infinite ease-in-out;
+}
+.tree-creature.b3 {
+  top: 10px; left: 12%;
+  animation: creatureFloat3 6s infinite ease-in-out;
+}
+
+@keyframes creatureFloat1 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(12px, -15px) rotate(12deg); }
+}
+@keyframes creatureFloat2 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(-10px, -12px) rotate(-10deg); }
+}
+@keyframes creatureFloat3 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(8px, 10px); }
+}
+
+.tree-caption-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 10px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  text-align: center;
+}
+
+/* 2. عجلة صنائع المعروف (Kindness Fortune Wheel) */
+.wheel-section {
+  max-width: 1180px;
+  margin: 0 auto 90px;
+  padding: 40px 30px;
+}
+
+.wheel-game-container {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 40px;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.wheel-stage {
+  position: relative;
+  width: 340px;
+  height: 340px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#wheelCanvas {
+  border-radius: 50%;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15), 0 0 0 8px #fff, 0 0 0 12px #d4e5d8;
+  cursor: pointer;
+  transition: transform 4s cubic-bezier(0.15, 0.9, 0.2, 1);
+}
+
+.wheel-pointer {
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2.4rem;
+  color: #cf736b;
+  z-index: 10;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
+  animation: pointerBounce 1.5s infinite;
+}
+
+@keyframes pointerBounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-4px); }
+}
+
+.wheel-center-btn {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fffdf8 0%, #faebb8 60%, #d49f3f 100%);
+  border: 4px solid #fff;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-family: "Tajawal", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #2b1f06;
+  z-index: 8;
+  transition: transform 0.2s;
+}
+
+.wheel-center-btn:hover {
+  transform: scale(1.08);
+}
+.wheel-center-btn:active {
+  transform: scale(0.94);
+}
+
+.wheel-result-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f7faf3 100%);
+  border: 2px dashed #b7d6bd;
+  border-radius: var(--radius-lg);
+  padding: 35px 30px;
+  box-shadow: var(--shadow-md);
+}
+
+.wheel-result-badge {
+  display: inline-block;
+  background: var(--gold-soft);
+  color: var(--gold-dark);
+  border: 1px solid var(--gold-border);
+  padding: 5px 14px;
+  border-radius: var(--radius-full);
+  font-weight: 700;
+  font-size: 0.85rem;
+  margin-bottom: 12px;
+}
+
+.wheel-result-card h3 {
+  font-size: 1.6rem;
+  color: var(--primary-dark);
+  margin-bottom: 12px;
+}
+
+.wheel-result-card p {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  line-height: 1.8;
+}
+
+/* 3. مختبر المشاعر وبوصلة الأمان (Feelings Sanctuary) */
+.feelings-section {
+  max-width: 1180px;
+  margin: 0 auto 90px;
+  padding: 40px 30px;
+}
+
+.mood-cards-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 15px;
+  margin: 25px 0 30px;
+}
+
+.mood-card {
+  background: #ffffff;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 18px 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.mood-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  border-color: var(--primary-light);
+}
+
+.mood-card.active {
+  background: var(--primary-soft);
+  border-color: var(--primary);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 22px rgba(45, 94, 70, 0.15);
+}
+
+.mood-emoji {
+  font-size: 2.2rem;
+  animation: softSway 3s infinite ease-in-out;
+}
+
+.mood-card b {
+  font-size: 0.95rem;
+  color: var(--primary-dark);
+}
+
+.mood-card span {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.mood-feedback-box {
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px 25px;
+  box-shadow: var(--shadow-sm);
+}
+
+.mood-feedback-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.mood-support-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--primary-soft);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  flex-shrink: 0;
+}
+
+.mood-feedback-header h3 {
+  font-size: 1.35rem;
+  color: var(--primary-dark);
+  margin-bottom: 2px;
+}
+
+.mood-feedback-header p {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.mood-feedback-body {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--text-main);
+  padding: 16px 20px;
+  background: var(--bg-card-alt);
+  border-radius: var(--radius-md);
+  border-right: 4px solid var(--primary);
+}
+
+.breathing-exercise-wrap {
+  margin-top: 25px;
+  text-align: center;
+  padding-top: 15px;
+  border-top: 1px dashed var(--border);
+}
+
+.breathing-circle {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #edf7ee 0%, #ccead0 100%);
+  border: 3px solid #84c790;
+  margin: 10px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: breathePulse 6s infinite ease-in-out;
+  box-shadow: 0 0 20px rgba(132, 199, 144, 0.4);
+}
+
+@keyframes breathePulse {
+  0%, 100% { transform: scale(0.9); }
+  50% { transform: scale(1.35); background: radial-gradient(circle, #fdeeee 0%, #f9cfcf 100%); border-color: #e8958e; }
+}
+
+.breathing-text {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--primary-dark);
+}
+
+.breathing-hint {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+/* 4. رفيقة الأمان التفاعلية الذكية «نجمة الأمان» (Mascot Widget) */
+.mascot-widget {
+  position: fixed;
+  bottom: 85px;
+  left: 20px;
+  z-index: 995;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  pointer-events: auto;
+}
+
+.mascot-speech-bubble {
+  background: #ffffff;
+  border: 2px solid var(--gold);
+  border-radius: 18px;
+  padding: 10px 16px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #2b1f06;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+  max-width: 230px;
+  line-height: 1.5;
+  position: relative;
+  margin-bottom: 10px;
+  animation: bubblePop 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+
+@keyframes bubblePop {
+  0% { transform: scale(0.7) translateY(10px); opacity: 0; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.speech-arrow {
+  position: absolute;
+  bottom: -8px;
+  left: 24px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid var(--gold);
+}
+
+.mascot-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #fff;
+  border: 3px solid var(--gold);
+  box-shadow: 0 8px 25px rgba(212, 159, 63, 0.4);
+  cursor: pointer;
+  position: relative;
+  animation: mascotBob 3s infinite ease-in-out;
+  transition: transform 0.25s;
+}
+
+.mascot-avatar:hover {
+  transform: scale(1.15) rotate(5deg);
+}
+
+.mascot-avatar:active {
+  transform: scale(0.92);
+}
+
+@keyframes mascotBob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.mascot-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.mascot-eye {
+  animation: eyeBlink 3.5s infinite;
+  transform-origin: center;
+}
+
+@keyframes eyeBlink {
+  0%, 90%, 100% { transform: scaleY(1); }
+  95% { transform: scaleY(0.1); }
+}
+
+.mascot-sparkle {
+  position: absolute;
+  color: var(--gold);
+  font-size: 1rem;
+  animation: sparkleTwinkle 2s infinite ease-in-out;
+}
+
+.mascot-sparkle.s1 { top: -6px; right: -4px; }
+.mascot-sparkle.s2 { bottom: 4px; left: -8px; }
+
+.mascot-badge {
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--primary);
+  color: #fff;
+  font-size: 0.62rem;
+  padding: 1px 7px;
+  border-radius: var(--radius-full);
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+/* محدد الملصقات في الجدارية */
+.sticker-picker-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sticker-opt-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  background: #fff;
+  font-size: 1.05rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.sticker-opt-btn.active {
+  border-color: var(--primary);
+  transform: scale(1.15);
+  background: var(--primary-soft);
 }
 
 /* ==========================================================================
