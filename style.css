@@ -2421,30 +2421,98 @@ footer {
     display: flex;
   }
 
+  /* الترويسة العلوية الفائقة التجاوب على هواتف الآيفون والسامسونج */
   .topbar {
-    padding: 10px 14px;
-    padding-top: max(10px, env(safe-area-inset-top));
+    height: auto !important;
+    min-height: calc(56px + env(safe-area-inset-top));
+    padding: max(8px, env(safe-area-inset-top)) 12px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    box-sizing: border-box;
+    overflow: visible;
+  }
+  .brand-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    flex-shrink: 0;
+    min-width: 0;
   }
   .brand-badge {
-    width: 38px;
-    height: 38px;
+    width: 36px;
+    height: 36px;
     font-size: 1.15rem;
+    border-radius: 10px;
+    flex-shrink: 0;
+  }
+  .brand-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
   }
   .brand-text h1 {
-    font-size: 1.18rem;
+    font-size: 1.05rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin: 0;
+    white-space: nowrap;
+    color: var(--primary);
   }
   .brand-text span {
-    font-size: 0.7rem;
+    font-size: 0.66rem;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-top: 1px;
+    white-space: nowrap;
+    color: var(--text-muted);
   }
-  .sound-btn-text {
-    display: none;
+  .topbar-tools {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
   }
+  /* إخفاء النصوص الطويلة في الأزرار للحفاظ على شريط نقي ومرتب دون أي قص */
+  .sound-btn-text,
+  .music-btn-text {
+    display: none !important;
+  }
+  /* أزرار أيقونات دائرية أنيقة ومريحة للمس */
   .sound-toggle-btn {
-    padding: 8px 10px;
+    width: 36px;
+    height: 36px;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .music-toggle-btn {
+    width: 36px;
+    height: 36px;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
   }
   .mini-stars-pill {
-    padding: 5px 10px;
-    font-size: 0.8rem;
+    padding: 4px 10px;
+    font-size: 0.76rem;
+    font-weight: 700;
+    border-radius: 14px;
+    gap: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
   }
 
   .hero h1 {
@@ -2769,6 +2837,36 @@ footer {
   }
   .mascot-bubble-close:active {
     background: #e2e8f0;
+  }
+}
+
+
+/* شاشات الهواتف الصغيرة جداً (مثل سامسونج جالاكسي الضيقة والآيفون القديم) */
+@media (max-width: 360px) {
+  .topbar {
+    padding-left: 8px;
+    padding-right: 8px;
+    gap: 5px;
+  }
+  .brand-badge {
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
+  }
+  .brand-text h1 {
+    font-size: 0.94rem;
+  }
+  .brand-text span {
+    font-size: 0.62rem;
+  }
+  .sound-toggle-btn,
+  .music-toggle-btn {
+    width: 32px;
+    height: 32px;
+  }
+  .mini-stars-pill {
+    padding: 3px 7px;
+    font-size: 0.7rem;
   }
 }
 
