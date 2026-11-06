@@ -51,6 +51,22 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* منع التكبير التلقائي المزعج في متصفح Safari على أجهزة iPhone عند التركيز على الحقول */
+input, textarea, select {
+  font-size: 16px !important;
+}
+
+/* فيزياء اللمس التفاعلية وسرعة الاستجابة اللحظية لشاشات الجوال */
+button, a, .step-chip, .topic-card, .note-like-btn, .color-opt-btn, .star-slot {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:active, .btn-primary:active, .btn-outline:active, .step-chip:active, .note-like-btn:active {
+  transform: scale(0.96) !important;
 }
 
 body {
@@ -861,42 +877,115 @@ main {
   box-shadow: var(--shadow-md);
 }
 
+.wall-live-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: 0.82rem;
+  color: #065f46;
+  font-weight: 700;
+  margin-top: 6px;
+}
+
+.live-dot-pulse {
+  width: 9px;
+  height: 9px;
+  background: #10b981;
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  animation: pulseGreen 1.8s infinite;
+}
+
+@keyframes pulseGreen {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70% { transform: scale(1.1); box-shadow: 0 0 0 7px rgba(16, 185, 129, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
 .wall-input-bar {
   display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 25px 0 32px;
+}
+
+.wall-input-fields {
+  display: flex;
   gap: 12px;
-  margin: 25px 0 35px;
   flex-wrap: wrap;
 }
 
-.wall-input {
-  flex: 1;
-  min-width: 260px;
+.wall-input-fields .wall-input {
+  flex: 2;
+  min-width: 220px;
   padding: 14px 20px;
   border-radius: var(--radius-full);
   border: 1.5px solid var(--border);
   background: #fff;
   font-family: "Tajawal", sans-serif;
-  font-size: 1rem;
+  font-size: 16px !important;
   color: var(--text-main);
   outline: none;
   transition: border-color 0.25s, box-shadow 0.25s;
 }
 
-.wall-input:focus {
+.wall-input-fields .wall-input:focus {
   border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(45, 94, 70, 0.15);
 }
 
-.wall-author-input {
-  width: 190px;
+.wall-input-fields .wall-author-input {
+  flex: 1;
+  min-width: 150px;
   padding: 14px 18px;
   border-radius: var(--radius-full);
   border: 1.5px solid var(--border);
   background: #fff;
   font-family: "Tajawal", sans-serif;
-  font-size: 0.95rem;
+  font-size: 16px !important;
   color: var(--text-main);
   outline: none;
+}
+
+.wall-input-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.color-picker-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.color-picker-label {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.color-opt-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.2s;
+  outline: none;
+  touch-action: manipulation;
+}
+
+.color-opt-btn.active {
+  border-color: var(--primary);
+  transform: scale(1.15);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 
 .sticky-notes-grid {
@@ -1477,27 +1566,91 @@ footer {
 }
 
 /* ==========================================================================
-   التجاوب مع شاشات الجوال والأجهزة اللوحية (Responsive Design)
+   شريط التنقل السفلي الفخم لأجهزة الجوال والآيفون (iOS Bottom Bar)
+   ========================================================================== */
+.mobile-bottom-bar {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(45, 94, 70, 0.12);
+  padding: 8px 12px max(8px, env(safe-area-inset-bottom));
+  z-index: 990;
+  box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.06);
+  justify-content: space-around;
+  align-items: center;
+}
+
+.mob-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  position: relative;
+  transition: all 0.2s;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mob-nav-icon {
+  font-size: 1.25rem;
+  margin-bottom: 2px;
+}
+
+.mob-nav-item.active, .mob-nav-item:active {
+  color: var(--primary);
+  transform: scale(1.08);
+}
+
+.mob-nav-badge {
+  position: absolute;
+  top: 0;
+  right: 4px;
+  background: var(--gold);
+  color: #fff;
+  font-size: 0.65rem;
+  padding: 1px 5px;
+  border-radius: var(--radius-full);
+  font-weight: 800;
+}
+
+/* ==========================================================================
+   التجاوب مع شاشات الجوال والأجهزة اللوحية والآيفون (iOS Safari Optimization)
    ========================================================================== */
 @media (max-width: 900px) {
   .hero {
     grid-template-columns: 1fr;
     text-align: center;
-    padding-top: 45px;
-    gap: 30px;
+    padding-top: 35px;
+    gap: 25px;
   }
   .hero-cta-group {
     justify-content: center;
   }
   .hero-stats-row {
     justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
   }
   .hero-art-container {
-    height: 320px;
+    height: 300px;
   }
   .hero-art-orb {
-    width: 300px;
-    height: 300px;
+    width: 280px;
+    height: 280px;
   }
   .cards-grid {
     grid-template-columns: 1fr;
@@ -1506,37 +1659,217 @@ footer {
     grid-template-columns: 1fr;
   }
   .help-art-card {
-    height: 260px;
+    height: 240px;
   }
   .topbar-nav {
     display: none;
   }
 }
 
-@media (max-width: 600px) {
-  .hero h1 {
-    font-size: 2.3rem;
+@media (max-width: 640px) {
+  body {
+    padding-bottom: max(80px, calc(70px + env(safe-area-inset-bottom)));
   }
+  
+  .mobile-bottom-bar {
+    display: flex;
+  }
+
+  .topbar {
+    padding: 10px 14px;
+    padding-top: max(10px, env(safe-area-inset-top));
+  }
+  .brand-badge {
+    width: 38px;
+    height: 38px;
+    font-size: 1.15rem;
+  }
+  .brand-text h1 {
+    font-size: 1.18rem;
+  }
+  .brand-text span {
+    font-size: 0.7rem;
+  }
+  .sound-btn-text {
+    display: none;
+  }
+  .sound-toggle-btn {
+    padding: 8px 10px;
+  }
+  .mini-stars-pill {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+  }
+
+  .hero h1 {
+    font-size: 2.15rem;
+    line-height: 1.35;
+  }
+  .hero p.intro {
+    font-size: 0.98rem;
+  }
+  .hero-cta-group {
+    flex-direction: column;
+    width: 100%;
+  }
+  .hero-cta-group a, .hero-cta-group button {
+    width: 100%;
+    justify-content: center;
+    padding: 14px 20px;
+  }
+
+  /* رحلة الأمان والكبسولات على الآيفون */
   .journey-section {
-    padding: 30px 18px;
+    padding: 24px 14px;
+  }
+  .stars-display {
+    gap: 8px;
   }
   .star-slot {
-    width: 48px;
-    height: 48px;
-    font-size: 1.8rem;
+    width: 44px;
+    height: 44px;
+    font-size: 1.6rem;
   }
+  .journey-steps-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .journey-steps-grid .step-chip:nth-child(5) {
+    grid-column: span 2;
+  }
+  .step-chip {
+    padding: 10px 8px;
+  }
+  .step-chip-num {
+    width: 26px;
+    height: 26px;
+    font-size: 0.8rem;
+  }
+  .step-chip-info h4 {
+    font-size: 0.8rem;
+  }
+  .step-chip-info span {
+    font-size: 0.68rem;
+  }
+  .certificate-trigger-btn {
+    min-width: 100%;
+    width: 100%;
+  }
+
+  /* تجربة المودال التفاعلي كـ Bottom Sheet في الآيفون */
+  .modal-overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+  .modal-window {
+    border-radius: 28px 28px 0 0;
+    max-height: 90dvh;
+    max-width: 100%;
+    padding: 16px 16px max(24px, env(safe-area-inset-bottom));
+    transform: translateY(100%);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    -webkit-overflow-scrolling: touch;
+  }
+  .modal-overlay.active .modal-window {
+    transform: translateY(0);
+  }
+  .modal-window::before {
+    content: "";
+    display: block;
+    width: 44px;
+    height: 5px;
+    background: rgba(0, 0, 0, 0.18);
+    border-radius: 10px;
+    margin: 0 auto 14px;
+  }
+  .modal-close-btn {
+    top: 14px;
+    left: 14px;
+    width: 36px;
+    height: 36px;
+    font-size: 1.1rem;
+    z-index: 10;
+  }
+
+  /* الشهادة الرسمية متجاوبة 100% بدون أي قص */
   .certificate-frame {
-    padding: 25px 15px;
+    border-width: 6px double #caa45d;
+    padding: 18px 10px;
+    margin-top: 5px;
+  }
+  .cert-corner-flower {
+    font-size: 1.1rem;
+    width: 22px;
+    height: 22px;
+  }
+  .cert-header-meta {
+    font-size: 0.72rem;
+  }
+  .cert-subtitle {
+    font-size: 0.8rem;
   }
   .cert-main-title {
-    font-size: 2.1rem;
+    font-size: 1.75rem;
+  }
+  .cert-given-to {
+    font-size: 0.78rem;
   }
   .cert-student-name {
-    font-size: 1.8rem;
+    font-size: 1.55rem;
+  }
+  .cert-body-p {
+    font-size: 0.78rem;
+    line-height: 1.6;
+  }
+  .cert-seal-badge {
+    width: 75px;
+    height: 75px;
+    padding: 6px 4px;
+    font-size: 0.62rem;
+  }
+  .cert-seal-badge .seal-icon {
+    font-size: 1.2rem;
   }
   .cert-signatures {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    font-size: 0.76rem;
+  }
+  .cert-signatures div:nth-child(2) {
+    grid-column: span 2;
+  }
+  .cert-serial-footer {
+    font-size: 0.66rem;
+  }
+  #downloadCertImageBtn, #printCertPdfBtn {
+    width: 100% !important;
+    min-height: 50px;
+  }
+
+  /* جدارية الكلمات في الجوال */
+  .wall-container {
+    padding: 24px 16px;
+  }
+  .wall-input-fields {
     flex-direction: column;
-    gap: 15px;
+  }
+  .wall-input-fields .wall-author-input {
+    width: 100%;
+  }
+  .wall-input-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .color-picker-group {
+    justify-content: center;
+  }
+  #addStickyNoteBtn {
+    width: 100%;
+    padding: 14px;
+  }
+  .sticky-notes-grid {
+    grid-template-columns: 1fr;
   }
 }
 

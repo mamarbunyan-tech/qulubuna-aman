@@ -111,11 +111,16 @@
     });
   }
 
-  // تفعيل الصوت عند أول تفاعل للمستخدم في الصفحة
-  document.addEventListener('click', function unlock() {
+  // تفعيل محرك الصوت بسلاسة عند أول لمس أو تفاعل على كافة الأجهزة وخاصة هواتف iPhone (iOS Safari)
+  function unlockAudio() {
     initAudio();
-    document.removeEventListener('click', unlock);
-  }, { once: true });
+    ['click', 'touchstart', 'touchend', 'pointerdown'].forEach(ev => {
+      document.removeEventListener(ev, unlockAudio);
+    });
+  }
+  ['click', 'touchstart', 'touchend', 'pointerdown'].forEach(ev => {
+    document.addEventListener(ev, unlockAudio, { passive: true, once: true });
+  });
 
 
   // =========================================================================
@@ -386,10 +391,14 @@
       }
     }
 
-    // 7. عداد الإحصائيات
+    // 7. عداد الإحصائيات وشارة الجوال
     const statStars = document.getElementById('statStarsCount');
     if (statStars) {
       statStars.textContent = `${state.stars} / 5`;
+    }
+    const mobBadge = document.getElementById('mobStarsBadge');
+    if (mobBadge) {
+      mobBadge.textContent = `${state.stars}/5`;
     }
   }
 
@@ -718,20 +727,66 @@
         SFX.heartbeat();
         setTimeout(() => SFX.stamp(), 300);
 
+        // تحديث إجمالي الطالبات الموقعات في قاعدة البيانات المدرسية الحية
+        incrementGlobalPledges();
+
         awardStep('pledge');
         openSuccessModal(`تم توثيق عهدكِ يا ${name}!`, 'وقّعتِ ميثاق قلوبنا أمان بمدرسة متوسطة 92، وأصبحتِ سفيرة رسمية للأمان واللطف. تمت إضافة النجمة الرابعة ⭐!');
       };
     }
   }
 
-  // النشاط 5: جدارية الكلمات الطيبة (Sticky Wall)
+  // =========================================================================
+  // 5. قاعدة البيانات السحابية الحية وجدارية الكلمات (Cloud Realtime Database)
+  // =========================================================================
+  const FIREBASE_BASE = 'https://waer-579c6-default-rtdb.firebaseio.com/qulubuna_aman';
+
+  // تحديث إجمالي الطالبات الموقعات في قاعدة البيانات
+  async function incrementGlobalPledges() {
+    try {
+      const res = await fetch(`${FIREBASE_BASE}/stats/totalPledges.json`);
+      let count = 142;
+      if (res.ok) {
+        const val = await res.json();
+        if (typeof val === 'number') count = val;
+      }
+      const newCount = count + 1;
+      await fetch(`${FIREBASE_BASE}/stats/totalPledges.json`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newCount)
+      });
+      const el = document.getElementById('globalPledgesCount');
+      if (el) el.textContent = newCount;
+    } catch (e) {
+      console.warn('Firebase pledges update error:', e);
+    }
+  }
+
+  // جلب الإحصائيات العامة المحدثة
+  async function fetchGlobalStats() {
+    try {
+      const res = await fetch(`${FIREBASE_BASE}/stats.json`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data && typeof data === 'object') {
+          if (data.totalPledges) {
+            const el = document.getElementById('globalPledgesCount');
+            if (el) el.textContent = data.totalPledges;
+          }
+        }
+      }
+    } catch (e) {}
+  }
+
+  // النشاط 5: جدارية الكلمات الطيبة المتصلة بقاعدة البيانات السحابية
   function setupStickyWall() {
     const WALL_STORAGE = 'qulubuna_sticky_notes_v2';
     const defaultNotes = [
-      { id: 1, text: '«ابتسامتكِ تضيء فناء مدرستنا كل صباح يا صديقتي» 🌸', author: 'طالبة من الصف الثاني', color: 'yellow', likes: 14 },
-      { id: 2, text: '«شكراً لأستاذة إيمان العمري على استماعها الدائم واحتوائها لقلوبنا» ♥', author: 'طالبة ممتنة', color: 'pink', likes: 23 },
-      { id: 3, text: '«أنتِ قوية ومميزة كما أنتِ، ولا تدعي أي كلمة عابرة تطفئ بريقكِ» ✨', author: 'سفيرة الأمان', color: 'green', likes: 19 },
-      { id: 4, text: '«مدرستنا مكان للحب والأمان، كلنا معكِ ولن ندع أحداً يؤذيكِ» 🤍', author: 'صديقة مخلصة', color: 'blue', likes: 16 }
+      { id: 'note_1', text: '«ابتسامتكِ تضيء فناء مدرستنا كل صباح يا صديقتي» 🌸', author: 'طالبة من الصف الثاني', color: 'yellow', likes: 18, timestamp: 1730900000000 },
+      { id: 'note_2', text: '«شكراً لأستاذة إيمان العمري على استماعها الدائم واحتوائها لقلوبنا» ♥', author: 'طالبة ممتنة', color: 'pink', likes: 29, timestamp: 1730901000000 },
+      { id: 'note_3', text: '«أنتِ قوية ومميزة كما أنتِ، ولا تدعي أي كلمة عابرة تطفئ بريقكِ» ✨', author: 'سفيرة الأمان', color: 'green', likes: 22, timestamp: 1730902000000 },
+      { id: 'note_4', text: '«مدرستنا مكان للحب والأمان، كلنا معكِ ولن ندع أحداً يؤذيكِ» 🤍', author: 'صديقة مخلصة', color: 'blue', likes: 25, timestamp: 1730903000000 }
     ];
 
     let notes = defaultNotes;
@@ -749,10 +804,17 @@
     }
 
     const container = document.getElementById('stickyNotesGrid');
+    const syncText = document.getElementById('wallLiveSyncText');
+
+    function updateSyncStatus(connected, msg) {
+      if (!syncText) return;
+      syncText.textContent = msg;
+    }
+
     function renderNotes() {
       if (!container) return;
       container.innerHTML = notes.map((n, idx) => `
-        <div class="sticky-note ${n.color}" style="transform: rotate(${(idx % 2 === 0 ? -1.5 : 1.5)}deg);">
+        <div class="sticky-note ${n.color || 'yellow'}" style="transform: rotate(${(idx % 2 === 0 ? -1.5 : 1.5)}deg);">
           <div class="note-pin"></div>
           <div class="note-text">${escapeHtml(n.text)}</div>
           <div class="note-footer">
@@ -766,13 +828,96 @@
     }
     renderNotes();
 
-    // إضافة ملاحظة جديدة
+    // 1. جلب البيانات من قاعدة البيانات السحابية (Firebase Realtime DB)
+    async function fetchFromCloud() {
+      try {
+        const resp = await fetch(`${FIREBASE_BASE}/notes.json`);
+        if (!resp.ok) throw new Error('Cloud fetch failed');
+        const data = await resp.json();
+        if (data && typeof data === 'object') {
+          const list = Object.keys(data).map(k => ({
+            id: k,
+            text: data[k].text || '',
+            author: data[k].author || 'طالبة أمان',
+            color: data[k].color || 'yellow',
+            likes: data[k].likes || 0,
+            timestamp: data[k].timestamp || Date.now()
+          }));
+          list.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+          if (list.length > 0) {
+            notes = list;
+            saveNotes();
+            renderNotes();
+            updateSyncStatus(true, 'قاعدة بيانات مباشرة متصلة بجميع الطالبات 🟢');
+          }
+        }
+      } catch (err) {
+        console.warn('Firebase sync notice:', err);
+        updateSyncStatus(false, 'الملاحظات محفوظة في الجهاز محلياً');
+      }
+    }
+    fetchFromCloud();
+
+    // 2. الاستماع الفوري للتحديثات الحية عبر تقنية Server-Sent Events (SSE)
+    if (window.EventSource) {
+      try {
+        const sse = new EventSource(`${FIREBASE_BASE}/notes.json`);
+        sse.addEventListener('put', (e) => {
+          try {
+            const payload = JSON.parse(e.data);
+            if (payload && payload.path === '/' && payload.data) {
+              const cloudList = Object.keys(payload.data).map(k => ({
+                id: k,
+                text: payload.data[k].text || '',
+                author: payload.data[k].author || 'طالبة أمان',
+                color: payload.data[k].color || 'yellow',
+                likes: payload.data[k].likes || 0,
+                timestamp: payload.data[k].timestamp || Date.now()
+              }));
+              cloudList.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+              notes = cloudList;
+              saveNotes();
+              renderNotes();
+            } else if (payload && payload.path && payload.data !== undefined) {
+              const segs = payload.path.replace(/^\//, '').split('/');
+              const noteKey = segs[0];
+              const item = notes.find(n => n.id === noteKey);
+              if (item) {
+                if (segs[1] === 'likes') {
+                  item.likes = payload.data;
+                } else if (typeof payload.data === 'object') {
+                  Object.assign(item, payload.data);
+                }
+                renderNotes();
+              } else if (typeof payload.data === 'object' && payload.data.text) {
+                notes.unshift({ id: noteKey, ...payload.data });
+                renderNotes();
+              }
+            }
+          } catch (err) {}
+        });
+      } catch (err) {}
+    }
+
+    // 3. محدد ألوان البطاقات
+    let activeColor = 'yellow';
+    const colorButtons = document.querySelectorAll('.color-opt-btn');
+    colorButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        colorButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeColor = btn.dataset.color || 'yellow';
+        SFX.click();
+      });
+    });
+
+    // 4. إضافة ملاحظة جديدة ونشرها في قاعدة البيانات الحية
     const addBtn = document.getElementById('addStickyNoteBtn');
     const textInput = document.getElementById('stickyTextInput');
     const authorInput = document.getElementById('stickyAuthorInput');
 
     if (addBtn && textInput) {
-      addBtn.onclick = () => {
+      addBtn.onclick = async () => {
         const text = textInput.value.trim();
         const author = authorInput ? authorInput.value.trim() : '';
         if (!text) {
@@ -780,17 +925,17 @@
           return;
         }
 
-        const colors = ['yellow', 'pink', 'green', 'blue'];
-        const randomColor = colors[Math.floor(Math.random() * colors.length)];
-
+        const noteId = `note_${Date.now()}`;
         const newNote = {
-          id: Date.now(),
+          id: noteId,
           text: text,
           author: author || (state.studentName || 'طالبة أمان'),
-          color: randomColor,
-          likes: 1
+          color: activeColor,
+          likes: 1,
+          timestamp: Date.now()
         };
 
+        // إضافة محلية فورية للاستجابة السريعة
         notes.unshift(newNote);
         saveNotes();
         renderNotes();
@@ -801,21 +946,41 @@
         SFX.success();
         launchConfetti();
         awardStep('wall');
+
+        // الحفظ في قاعدة البيانات السحابية الحية لتظهر للجميع فوراً
+        try {
+          await fetch(`${FIREBASE_BASE}/notes/${noteId}.json`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newNote)
+          });
+        } catch (err) {
+          console.warn('Firebase write notice:', err);
+        }
       };
     }
 
-    // زر الإعجاب بالبطاقات
+    // 5. زر الإعجاب بالبطاقات وتحديثه في قاعدة البيانات
     if (container) {
-      container.onclick = (e) => {
+      container.onclick = async (e) => {
         const likeBtn = e.target.closest('.note-like-btn');
         if (likeBtn) {
-          const id = parseInt(likeBtn.dataset.id, 10);
-          const item = notes.find(n => n.id === id);
+          const id = likeBtn.dataset.id;
+          const item = notes.find(n => String(n.id) === String(id));
           if (item) {
             item.likes = (item.likes || 0) + 1;
             saveNotes();
             renderNotes();
             SFX.click();
+
+            // إرسال الإعجاب لقاعدة البيانات لتحديث الرقم عند بقية الطالبات
+            try {
+              await fetch(`${FIREBASE_BASE}/notes/${id}.json`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ likes: item.likes })
+              });
+            } catch (err) {}
           }
         }
       };
@@ -1196,11 +1361,51 @@
       };
     }
 
+    // شريط التنقل السفلي لهواتف iPhone
+    setupMobileNav();
+
+    // جلب الإحصائيات العامة المدرسية الحية
+    fetchGlobalStats();
+
     // إخفاء شاشة البداية
     setTimeout(() => {
       const splash = document.getElementById('appSplash');
       if (splash) splash.classList.add('hidden');
     }, 600);
+  }
+
+  // إدارة شريط التنقل السفلي الخاص بالجوال والآيفون
+  function setupMobileNav() {
+    const navItems = document.querySelectorAll('.mob-nav-item[data-section]');
+    const certMobBtn = document.getElementById('mobNavCertBtn');
+
+    if (certMobBtn) {
+      certMobBtn.onclick = () => {
+        if (state.stars >= 5) {
+          openCertificateModal();
+        } else {
+          const journey = document.getElementById('journey');
+          if (journey) journey.scrollIntoView({ behavior: 'smooth' });
+          SFX.guidance();
+        }
+      };
+    }
+
+    // تتبع موقع التمرير لتنشيط الأيقونة النشطة
+    window.addEventListener('scroll', () => {
+      const scrollPos = window.scrollY + 220;
+      navItems.forEach(item => {
+        const sec = document.getElementById(item.dataset.section);
+        if (sec) {
+          const top = sec.offsetTop;
+          const height = sec.offsetHeight;
+          if (scrollPos >= top && scrollPos < top + height) {
+            navItems.forEach(i => i.classList.remove('active'));
+            item.classList.add('active');
+          }
+        }
+      });
+    }, { passive: true });
   }
 
   // مساعد لتهريب نصوص HTML

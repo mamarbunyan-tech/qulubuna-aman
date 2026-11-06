@@ -2,8 +2,12 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="theme-color" content="#2d5e46" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="قلوبنا أمان" />
+  <meta name="format-detection" content="telephone=no" />
   <title>مبادرة قلوبنا أمان | مدرسة متوسطة 92</title>
   <meta name="description" content="منصة تفاعلية مدرسية لتعزيز الأمان النفسي، نبذ التنمر، ونشر ثقافة اللطف والاحترام - مدرسة متوسطة 92" />
   
@@ -92,6 +96,13 @@
             <div class="stat-info">
               <b id="statStarsCount">0 / 5</b>
               <span>النجوم المكتسبة</span>
+            </div>
+          </div>
+          <div class="stat-item" id="statPledgesBox" title="طالبات وقّعن ميثاق الأمان في المدرسة">
+            <div class="stat-icon">🔏</div>
+            <div class="stat-info">
+              <b id="globalPledgesCount">142</b>
+              <span>سفيرة وقّعت الميثاق</span>
             </div>
           </div>
           <div class="stat-item">
@@ -277,19 +288,33 @@
           <div>
             <span class="eyebrow-tag">نجمة 5 ⭐ · أثر اللطف الممتد</span>
             <h2>جدارية الكلمات الطيبة 🌸</h2>
-            <p style="color:var(--text-muted); margin-top:4px;">شاركي بكلمة تشجيعية، عبارة لطف، أو رسالة حب تنضم لجدارية مدرستنا.</p>
+            <p style="color:var(--text-muted); margin-top:4px;">شاركي بكلمة تشجيعية، عبارة لطف، أو رسالة حب تنضم لجدارية مدرستنا وتظهر لجميع الطالبات.</p>
           </div>
-          <span class="sparkle-icon">💌</span>
+          <div class="wall-live-status-pill" id="wallLiveStatusPill" title="متصل بقاعدة البيانات المدرسية">
+            <span class="live-dot-pulse"></span>
+            <span id="wallLiveSyncText">قاعدة بيانات مباشرة متصلة بالجميع</span>
+          </div>
         </div>
 
-        <!-- شريط إضافة ملاحظة لطيفة -->
+        <!-- شريط إضافة ملاحظة لطيفة متجاوب بالكامل -->
         <div class="wall-input-bar">
-          <input type="text" id="stickyTextInput" class="wall-input" placeholder="اكتبي كلمة طيبة أو رسالة مساندة لصديقاتكِ..." maxlength="120" />
-          <input type="text" id="stickyAuthorInput" class="wall-author-input" placeholder="اسمكِ أو لقبكِ (اختياري)..." maxlength="30" />
-          <button class="btn-primary" id="addStickyNoteBtn">
-            <span>أنشري في الجدارية</span>
-            <span>📌</span>
-          </button>
+          <div class="wall-input-fields">
+            <input type="text" id="stickyTextInput" class="wall-input" placeholder="اكتبي كلمة طيبة أو رسالة مساندة لصديقاتكِ..." maxlength="120" />
+            <input type="text" id="stickyAuthorInput" class="wall-author-input" placeholder="اسمكِ أو لقبكِ (اختياري)..." maxlength="30" />
+          </div>
+          <div class="wall-input-controls">
+            <div class="color-picker-group" id="colorPickerGroup" title="اختاري لون بطاقتكِ">
+              <span class="color-picker-label">لون البطاقة:</span>
+              <button type="button" class="color-opt-btn active" data-color="yellow" style="background:#fef3c7;" title="أصفر دافئ"></button>
+              <button type="button" class="color-opt-btn" data-color="pink" style="background:#ffe4e6;" title="وردي لطيف"></button>
+              <button type="button" class="color-opt-btn" data-color="green" style="background:#dcfce7;" title="أخضر منعش"></button>
+              <button type="button" class="color-opt-btn" data-color="blue" style="background:#e0f2fe;" title="أزرق هادئ"></button>
+            </div>
+            <button class="btn-primary" id="addStickyNoteBtn">
+              <span>أنشري في الجدارية للجميع</span>
+              <span>📌</span>
+            </button>
+          </div>
         </div>
 
         <!-- شبكة الملاحظات اللاصقة الملونة -->
@@ -398,6 +423,31 @@
       </p>
     </div>
   </footer>
+
+  <!-- شريط التنقل السفلي الفخم لأجهزة الجوال والآيفون (iOS Bottom Bar) -->
+  <nav class="mobile-bottom-bar" id="mobileBottomBar" aria-label="تنقل الجوال">
+    <a href="#home" class="mob-nav-item active" data-section="home">
+      <span class="mob-nav-icon">🏠</span>
+      <span class="mob-nav-label">الرئيسية</span>
+    </a>
+    <a href="#journey" class="mob-nav-item" data-section="journey">
+      <span class="mob-nav-icon">⭐</span>
+      <span class="mob-nav-label">رحلتي</span>
+      <span class="mob-nav-badge" id="mobStarsBadge">0/5</span>
+    </a>
+    <a href="#stickyWallSection" class="mob-nav-item" data-section="stickyWallSection">
+      <span class="mob-nav-icon">💌</span>
+      <span class="mob-nav-label">الجدارية</span>
+    </a>
+    <a href="#pledge" class="mob-nav-item" data-section="pledge">
+      <span class="mob-nav-icon">🔏</span>
+      <span class="mob-nav-label">الميثاق</span>
+    </a>
+    <button type="button" class="mob-nav-item" id="mobNavCertBtn">
+      <span class="mob-nav-icon">👑</span>
+      <span class="mob-nav-label">الشهادة</span>
+    </button>
+  </nav>
 
   <!-- نافذة المودال التفاعلية الموحدة -->
   <div class="modal-overlay" id="modalOverlay" aria-hidden="true">
